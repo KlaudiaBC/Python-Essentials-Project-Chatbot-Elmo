@@ -19,6 +19,7 @@ print(data)
 YES_ANSWERS = ["yes", "y", "ok", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
+activities = ["dance", "football", "drawing"]
 
 
 def get_name():
@@ -37,14 +38,25 @@ def get_name():
 while True:
     #q3 = input("Elmo: The {activity} takes place every {day} at {hour}. ")
     # input("Elmo: Excellent! Elmo did it all by himself")
-    q1 = input("Would you like to sign up for the activities? ")
+    q1 = input("Elmo: Would you like to sign up for the activities? ")
     q1_str = q1.lower()
     print(q1)
     if q1_str in YES_ANSWERS:
-        q2 = input("Which activity would you like to sign up for? ")
+        q2 = input("Elmo: Which activity would you like to sign up for? ")
         q2_str = q2.lower()
         print(q2)
-    elif q1.lower() in NO_ANSWERS:
+        if q2_str in activities:
+            print("Elmo: The {0} classes take place at every Friday at 16:00.".format(q2))
+            q3 = input("Elmo: Is that OK for you? ")
+            q3_str = q3.lower()
+            if q3_str in YES_ANSWERS:
+                print("Elmo: Excellent! You are on the list!")
+                print(input("Elmo: Do you want to sign up for another classes?"))
+            else:
+                print("OK.")
+        else:
+            print("I got lost")
+    elif q1_str in NO_ANSWERS:
         q_joke = input("Elmo: Would you like to hear a joke? ")
         print(q_joke)
         print("Elmo: joke")
