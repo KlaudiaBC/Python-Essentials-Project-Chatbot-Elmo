@@ -1,31 +1,67 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Python Essentials: "Chatbot Elmo" Portfolio Project
+## Welcome!
 
-Welcome USER_NAME,
+<p id="welcome"></p>
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+## This is my Portfolio 3 Project regarding the Code Institute's Diploma in Software Development (E-commerce Applications).
+It is a customized ChatBot built using Python.
 
-## Reminders
+<p align="center">
+  <img src="" alt="">
+</p>
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+## Table of contents
+- <a href="#content">Content</a>
+- <a href="#uj">User journey</a>
+- <a href="#fe">Features</a>
+- <a href="#data">Data model</a>
+- <a href="#ip">Implementation process</a>
+- <a href="#tu">Technologies used</a>
+- <a href="#ack">Acknowledgement</a>
+- <a href="#deploy">Deployment</a>
+- <a href="#test">Testing</a>
 
-## Creating the Heroku app
+<p id="content"></p>
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Content
 
-1. `heroku/python`
-2. `heroku/nodejs`
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="uj"></p>
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+## User journey
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="fe"></p>
 
-Connect your GitHub repository and deploy as normal.
+## Features
 
-## Constraints
+### Excisting features
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+### Future features
 
------
-Happy coding!
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="data"></p>
+
+## Data model
+
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="ip"></p>
+
+## Implementation process
+
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="ack"></p>
+
+## Acknowledgement
+
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="deploy"></p>
+
+## Deployment
+
+<p align="right"><a href="#welcome">Bact to top</a></p>
+<p id="test"></p>
+
+## Testing
+
+<p align="right"><a href="#welcome">Bact to top</a></p>
