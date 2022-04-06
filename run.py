@@ -18,40 +18,35 @@ data = activities.get_all_values()
 print(data)
 
 
-def get_name_data():
+while True:
     """
     Start of the new session,
     Get name provided by the User via input
     Run a while loop to collect a valid string of data from the user
     via the terminal. The loop will repeatedly request data, until it is valid.
     """
-    while True:
-        print("Hi my name is Elmo and I will help you register for the activities.")
+    print("Hi my name is Elmo and I will help you register for the activities.")
+    name_str = input("What is your name? ")
 
-        name_str = input("What is your name?: \n")
+    print("Elmo: Hello {0}".format(name_str))
+    q1 = input("Elmo: Would you like to sign up for the activities? ")
 
-        if validate_data(name_str):
-            print("Hello {0}".format(name_str))
-            break
+    if q1 == "yes".lower():
+        print("Huray")
+    elif q1 == "no".lower():
+        print("oh noooo")
+    else:
+        q_conf = input("Elmo: I am not sure what you mean... Can you use other words? ")
+        if q_conf == "yes".lower():
+            print("Huray")
+        elif q_conf == "no".lower():
+            print("oh noooo")
+        else:
+            print(input("Seems like I am missing some words here."))
 
-    return name_str
+    bye = input("Elmo: Are you leaving? ")
 
-
-def validate_data(value):
-    """
-    Inside the try, converts all string values into integers.
-    Raises ValueError if strings cannot be converted into int,
-    or if there aren't exactly 6 values.
-    """
-    try:
-        if value == None:
-            raise ValueError(
-                f"Never heard of that name. Can you use the letters?"
-            )
-    except ValueError as e:
-        print(f"Invalid data: {e}, please try again.\n")
-        return False
-
-    return True
-
-print(get_name_data())
+    if bye == "yes".lower():
+        print("Elmo: Take care <3")
+    else:
+        play = input("Do you want to start over?")
