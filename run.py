@@ -19,7 +19,6 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 YES_ANSWERS = ["yes", "y", "ok", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
-activities = ["dance", "football", "drawing"]
 
 
 def get_name():
@@ -40,12 +39,14 @@ def get_activities():
     and returns the data as a list of strings.
     """
     activ = SHEET.worksheet("activities").get_all_values()
-    activ_row = activities
+    activ_row = activ[0]
     activ_string = ''
     for x in activ_row:
         activ_string += ' ' + x + ','
 
     return activ_string
+
+activities = get_activities()
 
 while True:
     get_name()
@@ -84,7 +85,7 @@ while True:
     if bye == "yes".lower():
         print("Elmo: Take care <3")
     else:
-        play = input("Do you want to start over?\nYou: ")
+        play = input("Do you want to start over?")
 
 
 # def main():
@@ -98,6 +99,8 @@ while True:
 print("Hi! My name is Elmo! :)")
 print("I can help you register for the activities of your choice.")
 print("I can also tell you a funny joke!")
+
+
 
 
 print(get_name())
