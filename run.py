@@ -43,20 +43,33 @@ def get_activities():
     activ_row = activ[0]
     activ_string = ''
     for x in activ_row:
-        activ_string += ' ' + x + ','
+        activ_string += ' ' + x
 
     return activ_string
 
 activities = get_activities()
 
+def display_date():
+    """
+    Collects first row of data from activities worksheet,
+    and returns the data as a list of strings.
+    """
+    dates = SHEET.worksheet("activities").get_all_values()
+    date_act = dates[0]
+    date = dates[-1]
+
+    print(date)    
+
+display_date()
 
 def choose_activ():
-    print("Elmo: The activities are: " + get_activities())
+    print("Elmo: The activities are:" + get_activities())
     inp2 = input("Elmo: Which activity would you like to sign up for?\nYou: ")
     inp2_str = inp2.lower()
     if inp2_str not in activities:
         print("Elmo: I do not have {0} on my list!".format(inp2))
         print("Elmo: Try again.")
+        choose_activ()
     else:
         print("Elmo: The {0} classes take place every Friday at 16:00.".format(inp2))
 
@@ -65,8 +78,6 @@ def tell_joke():
     if joke in YES_ANSWERS or joke in JOKE_ANS:
         print("joke")
         tell_joke()
-    elif joke in NO_ANSWERS:
-        restart()
     else:
         say_bye()
 
@@ -79,15 +90,6 @@ def confirm():
         print("Elmo: Hurray! You are now on the list!")
         tell_joke()
 
-def restart():
-    restart = str(input("Elmo: Would you like to start again?\nYou: "))
-    if restart in YES_ANSWERS:
-        restart = ('Y')
-    elif restart in NO_ANSWERS:
-        say_bye()
-    else:
-        tell_joke()
-
 def say_bye():      
     bye = input("Elmo: Are you leaving now?\nYou: ")
     bye_str = bye.lower()
@@ -97,22 +99,32 @@ def say_bye():
     else:
         restart()
 
-
-while restart not in NO_ANSWERS:
-    get_name()
-    inp1 = input("Elmo: Would you like to sign up for the activities?\nYou: ")
-    inp1_str = inp1.lower()
-    if inp1_str in YES_ANSWERS:
-        choose_activ()
-    elif inp1_str in NO_ANSWERS:
-        tell_joke()
-    else:
+def restart():
+    restart = str(input("Elmo: Would you like to start again?\nYou: "))
+    if restart in YES_ANSWERS:
+        restart = ('Y')
+    elif restart in NO_ANSWERS:
         say_bye()
+    else:
+        tell_joke()
 
-# def main():
+def start():
+    while restart not in NO_ANSWERS:
+        inp1 = input("Elmo: Would you like to sign up for the activities?\nYou: ")
+        inp1_str = inp1.lower()
+        if inp1_str in YES_ANSWERS:
+            choose_activ()
+            confirm()
+        elif inp1_str in NO_ANSWERS:
+            tell_joke()
+        else:
+            say_bye()
+
+def main():
 #     """
 #     Run all program functions
 #     """
-#     data = get_name()
-#     name_data = name_str
-#     update_worksheet(name_data, "students")
+    get_name()
+    start()
+
+print(main())
