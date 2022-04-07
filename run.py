@@ -22,9 +22,6 @@ NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
 JOKE_ANS = ["joke"]
 
-def get_name():
-    name_str = input("Elmo: What is your name?\nYou: ")
-    print("Elmo: Hello {0}".format(name_str))
 
 # def display_question(question):
 #     """
@@ -64,14 +61,22 @@ display_date()
 
 def choose_activ():
     print("Elmo: The activities are:" + get_activities())
-    inp2 = input("Elmo: Which activity would you like to sign up for?\nYou: ")
-    inp2_str = inp2.lower()
-    if inp2_str not in activities:
-        print("Elmo: I do not have {0} on my list!".format(inp2))
+    inp = input("Elmo: Which activity would you like to sign up for?\nYou: ")
+    inp_str = inp.lower()
+    if inp_str not in activities:
+        print("Elmo: I do not have {0} on my list!".format(inp))
         print("Elmo: Try again.")
         choose_activ()
     else:
-        print("Elmo: The {0} classes take place every Friday at 16:00.".format(inp2))
+        print("Elmo: The {0} classes take place every Friday at 16:00.".format(inp))
+        confirmation = input("Elmo: Is that OK for you?\nYou: ")
+        if confirmation not in YES_ANSWERS:
+            print("Elmo: Do you want to start again?")
+            restart()
+        else:
+            student = [name_str, inp_str]
+            save_name(student, 'students')
+            tell_joke()
 
 def tell_joke():
     joke = input("Elmo: Would you like to hear funny joke?\nYou: ")
@@ -80,15 +85,6 @@ def tell_joke():
         tell_joke()
     else:
         say_bye()
-
-def confirm():
-    confirmation = input("Elmo: Is that OK for you?\nYou: ")
-    if confirmation not in YES_ANSWERS:
-        print("Elmo: Do you want to start again?")
-        restart()
-    else:
-        print("Elmo: Hurray! You are now on the list!")
-        tell_joke()
 
 def say_bye():      
     bye = input("Elmo: Are you leaving now?\nYou: ")
@@ -114,17 +110,22 @@ def start():
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
             choose_activ()
-            confirm()
         elif inp1_str in NO_ANSWERS:
             tell_joke()
         else:
             say_bye()
 
+def save_name(data, worksheet):
+    students = SHEET.worksheet(worksheet)
+    students.append_row(data)
+    print("Elmo: Excellent! You are now on the list!")
+
+
 def main():
-#     """
-#     Run all program functions
-#     """
-    get_name()
     start()
 
+name_str = input("Elmo: What is your name?\nYou: ")
+
+print(name_str)
+print("Elmo: Hello {0}".format(name_str))
 print(main())
