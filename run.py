@@ -19,7 +19,7 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 YES_ANSWERS = ["yes", "y", "ok", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
-
+JOKE = ["joke"]
 
 def get_name():
     name_str = input("Elmo: What is your name?\nYou: ")
@@ -48,37 +48,77 @@ def get_activities():
 
 activities = get_activities()
 
+q1 = "Elmo: Would you like to sign up for the activities?\nYou: "
+q2 = "Elmo: Which activity would you like to sign up for?\nYou: "
+q3 = "Elmo: Is that OK for you?\nYou: "
+q4 = "Elmo: Do you want to sign up for another classes?\nYou: "
+q5 = "Elmo: I am not sure what you mean... Can you use other words?"
+q6 = "Elmo: Would you like to hear funny joke?\nYou: "
+q7 = "Elmo: Did you like it?\nYou: "
+q8 = "Elmo: Would you like more jokes?\nYou: "
+q9 = "Elmo: Is there anything else I can do for you?\nYou: "
+
+
 while True:
     get_name()
-    q1 = input("Elmo: Would you like to sign up for the activities?\nYou: ")
-    q1_str = q1.lower()
-    if q1_str in YES_ANSWERS:
+    inp1 = input(q1)
+    inp1_str = inp1.lower()
+    if inp1_str in YES_ANSWERS:
         print("Elmo: The activities are: " + get_activities())
-        q2 = input("Elmo: Which activity would you like to sign up for?\nYou: ")
-        q2_str = q2.lower()
-        if q2_str in activities:
-            print("Elmo: The {0} classes take place at every Friday at 16:00.".format(q2))
-            q3 = input("Elmo: Is that OK for you?\nYou: ")
-            q3_str = q3.lower()
-            if q3_str in YES_ANSWERS:
+        inp2 = input(q2)
+        inp2_str = inp2.lower()
+        if inp2_str in activities:
+            print("Elmo: The {0} classes take place every Friday at 16:00.".format(inp2))
+            inp3 = input(q3)
+            inp3_str = inp3.lower()
+            if inp3_str in YES_ANSWERS:
+                # add name to the list
                 print("Elmo: Excellent! You are on the list!")
-                print(input("Elmo: Do you want to sign up for another classes?\nYou: "))
+                inp4 = input(q4)
+                inp4_str = inp4.lower()
+                if inp4 in YES_ANSWERS:
+                    print(inp2)
+                elif inp4 in NO_ANSWERS:
+                    inp6 = input(q6)
+                    inp6_str = inp6.lower()
+                    if inp6_str in YES_ANSWERS or inp6_str in JOKE:
+                        print("Elmo: joke")
+                        inp7 = input(q7)
+                        inp7_str = inp7.lower()
+                        if inp7_str in YES_ANSWERS:
+                            print("Elmo: joke")
+                            print(inp7)
+                        elif inp7_str in NO_ANSWERS:
+                            print("Elmo: It was fun!")
+                            inp9 = input(q9)
+                            inp9_str = inp9.lower()
+                            if inp9 in YES_ANSWERS:
+                                print(inp1_str)
+                            elif inp9_str in NO_ANSWERS:
+                                print("bye bye")
+                        else:
+                            inp5 = input(q5)
+                            inp5_str = inp5.lower()
+                            if inp5_str in YES_ANSWERS:
+                                print(inp1) 
+                            else:
+                                print("bye")
+                    else:
+                        print("Elmo: Oh no! I thought it will make you laugh.")
+                        inp9 = input(inp9)
+                else:
+                    print(inp5)
+            elif inp3_str in NO_ANSWERS:
+                print(inp4)
             else:
-                print("OK.")
+                print(inp5)
         else:
-            print("I got lost")
-    elif q1_str in NO_ANSWERS:
-        q_joke = input("Elmo: Would you like to hear a joke?\nYou: ")
-        print(q_joke)
-        print("Elmo: joke")
+            print(inp5)
+    elif inp1_str in NO_ANSWERS:
+        print(inp6)
     else:
-        q_conf = input("Elmo: I am not sure what you mean... Can you use other words?\nYou: ")
-        if q_conf == "yes".lower():
-            print(q2)
-        elif q_conf == "no".lower():
-            print(q_joke)
-        else:
-            print(input("Elmo: What do you mean?\nYou: "))
+        print(inp5)
+
 
     bye = input("Elmo: Are you leaving?\nYou: ")
 
