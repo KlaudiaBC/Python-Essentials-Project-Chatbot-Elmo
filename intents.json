@@ -1,6 +1,6 @@
 {"Intents": [
     {"tag": "greeting",
-    "patterns": ["Hi!", "Hello", "How are you?", "sup", "Hey"],
+    "patterns": ["hi", "hello", "sup", "hey", "ho"],
     "responses": [
         "Hello!",
         "Good to see you again",
@@ -9,7 +9,7 @@
         "Such a pretty day, isn't it?"]
     },
     {"tag": "exit",
-        "patterns": ["Bye", "Goodbye", "I have to go", "See you", "Bye, bye", "Exit"],
+        "patterns": ["Bye", "Goodbye", "go", "Exit"],
         "responses": [
             "Bye! Hope to see you soon",
             "Have a great day",
@@ -17,14 +17,7 @@
             "Ciao amigo!"]
     },
     {"tag": "joke",
-        "patterns": [
-            "Joke",
-            "Tell me a joke",
-            "I want to hear a joke",
-            "tell me some jokes",
-            "joke please",
-            "more jokes",
-            "random joke"],
+        "patterns": ["joke"],
         "responses": [
             "Lightning doesn't mean to shock people, it just doesn't know how to conduct itself.",
             "Knowledge is knowing a tomato is a fruit. Wisdom is not putting it in a fruit salad.",
@@ -46,19 +39,14 @@
             "Why couldn't the bicycle stand? Because it was two tired."]
     },
     {"tag": "sad",
-        "patterns": ["I am sad!", "i am lonely", "sad", "angry", "not happy", "I want to cry"],
+        "patterns": ["sad", "lonely", "angry", "cry"],
         "responses": [
             "I am sorry to hear that. Do you want me to cheer you up?",
             "I am here to listen, you can tell me what's wrong.",
             "Ohh... Sorry to hear that. What can I do for you?"]
     },
     {"tag": "happy",
-        "patterns": [
-            "I am happy!",
-            "I am good",
-            "I am fine",
-            "i am excited",
-            "this is a good day"],
+        "patterns": ["happy", "good", "fine", "excited"],
         "responses": [
             "I am glad to hear that!",
             "I am so happy for you",
@@ -68,11 +56,7 @@
     },
     {"tag": "bored",
         "patterns": [
-            "I am bored!",
-            "You are boring",
-            "That's not funny",
-            "You are stupid",
-            "That is a waste of time"],
+            "bored", "stupid", "waste"],
         "responses": [
             "Sorry to hear that. I was trying my best!",
             "Sad to hear that, my creator belives I am funny.",

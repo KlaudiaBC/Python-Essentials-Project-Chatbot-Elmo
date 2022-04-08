@@ -3,10 +3,10 @@ import gspread
 from google.oauth2.service_account import Credentials
 import sys
 import nltk
+from nltk.stem import WordNetLemmatizer
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
-from nltk.stem import WordNetLemmatizer
 import json
 import numpy as np
 import random
@@ -30,7 +30,6 @@ NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
 JOKE_ANS = ["joke"]
 
-
 # def display_question(question):
 #     """
 #     Iterate over key/value pairs in dict and print them
@@ -38,8 +37,6 @@ JOKE_ANS = ["joke"]
 #     for key, value in question_dict.items():
 #         if key == question:
 #             print(value)
-
-
 
 # Functions connected with sign up process
 
@@ -64,7 +61,6 @@ def get_date():
     and returns the data as a list of strings.
     """
     pass
-
 
 def choose_activ():
     """
@@ -165,10 +161,9 @@ def main():
 # print(f"Elmo: Hello {name_str}!")
 # start()
 
-
-# Functions connected with chatbot converations:
-#Initialize Chatbot Training
-words=[]
+# Functions connected with chatbot converations
+# Initialize Chatbot Training
+words = []
 classes = []
 documents = []
 ignore_words = ['?', '!']
@@ -188,13 +183,16 @@ for intent in intents['Intents']:
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
 
-# Lemmatization
+# Lemmatization -  create base word,
+# in attempt to represent related words
 # tokenized words are converted into shorten
 # root words to remove redundancy
-words = [lemmatizer.lemmatize(w.lower()) for w in words if w not in ignore_words]
-words = sorted(list(set(words)))
+# initializing bag of words
+bag = [lemmatizer.lemmatize(w.lower()) for w in words if w not in ignore_words]
+bag = sorted(list(set(words)))
 
 classes = sorted(list(set(classes)))
+
 
 print(len(documents), "documents")
 print(len(classes), "classes", classes)
