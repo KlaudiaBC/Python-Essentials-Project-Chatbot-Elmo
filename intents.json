@@ -1,0 +1,86 @@
+{"Intents": [
+    {"tag": "greeting",
+    "patterns": ["Hi!", "Hello", "How are you?", "sup", "Hey"],
+    "responses": [
+        "Hello!",
+        "Good to see you again",
+        "How are you today?",
+        "Hello, my Dear Friend",
+        "Such a pretty day, isn't it?"]
+    },
+    {"tag": "exit",
+        "patterns": ["Bye", "Goodbye", "I have to go", "See you", "Bye, bye", "Exit"],
+        "responses": [
+            "Bye! Hope to see you soon",
+            "Have a great day",
+            "I will miss you!",
+            "Ciao amigo!"]
+    },
+    {"tag": "joke",
+        "patterns": [
+            "Joke",
+            "Tell me a joke",
+            "I want to hear a joke",
+            "tell me some jokes",
+            "joke please",
+            "more jokes",
+            "random joke"],
+        "responses": [
+            "Lightning doesn't mean to shock people, it just doesn't know how to conduct itself.",
+            "Knowledge is knowing a tomato is a fruit. Wisdom is not putting it in a fruit salad.",
+            "The only substitute for good manners is fast reflexes.",
+            "Reading whilst sunbathing makes you well red.",
+            "Evening news is where they begin with 'Good evening', and then proceed to tell you why it isn't.",
+            "A bus station is where a bus stops. A train station is where a train stops. On my desk, I have a work station.",
+            "Did you know that dolphins are so smart that within a few weeks of captivity, they can train people to stand on the very edge of the pool and throw them fish?",
+            "A bank is a place that will lend you money, if you can prove that you don't need it.",
+            "A clear conscience is usually the sign of a bad memory.",
+            "My first job was working in an orange juice factory, but I got canned because I couldn't concentrate.",
+            "Worrying works! 90% of the things I worry about never happen.",
+            "A bus is a vehicle that runs twice as fast when you are after it as when you are in it.",
+            "Always remember that you are unique; just like everyone else.",
+            "Can't stand it when a sentence doesn't end the way you think it OCTOPUS!",
+            "I was going to donate blood until the lady got all personal and started asking 'Who's blood is this?' and 'How did you get it?'",
+            "If swimming is so good for your figure, how do you explain whales?",
+            "I don't have a big ego. I'm way too cool for that.",
+            "Why couldn't the bicycle stand? Because it was two tired."]
+    },
+    {"tag": "sad",
+        "patterns": ["I am sad!", "i am lonely", "sad", "angry", "not happy", "I want to cry"],
+        "responses": [
+            "I am sorry to hear that. Do you want me to cheer you up?",
+            "I am here to listen, you can tell me what's wrong.",
+            "Ohh... Sorry to hear that. What can I do for you?"]
+    },
+    {"tag": "happy",
+        "patterns": [
+            "I am happy!",
+            "I am good",
+            "I am fine",
+            "i am excited",
+            "this is a good day"],
+        "responses": [
+            "I am glad to hear that!",
+            "I am so happy for you",
+            "High five and keep smiling!",
+            "Happy to hear that!",
+            "Woohoo! Type word: joke and see what happens :)"]
+    },
+    {"tag": "bored",
+        "patterns": [
+            "I am bored!",
+            "You are boring",
+            "That's not funny",
+            "You are stupid",
+            "That is a waste of time"],
+        "responses": [
+            "Sorry to hear that. I was trying my best!",
+            "Sad to hear that, my creator belives I am funny.",
+            "Forgive me dear, I am still learning.",
+            "I thought I can entertain you at least a bit...",
+            "Sorry My Friend, I really do what I can.",
+            "All I can say is... wanna hear a joke? :)",
+            "Type word: joke and see what happens :)"]
+    }
+]
+}

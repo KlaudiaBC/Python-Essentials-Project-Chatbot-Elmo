@@ -2,6 +2,15 @@
 import gspread
 from google.oauth2.service_account import Credentials
 import sys
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+from nltk.stem import WordNetLemmatizer
+import json
+import numpy as np
+import random
+lemmatizer = WordNetLemmatizer()
 
 # Connect and add creds into an external worksheet
 SCOPE = [
@@ -30,7 +39,7 @@ JOKE_ANS = ["joke"]
 #         if key == question:
 #             print(value)
 
-==================================================
+
 
 # Functions connected with sign up process
 
@@ -68,14 +77,13 @@ def choose_activ():
     inp = input("Elmo: Which activity would you like to sign up for?\nYou: ")
     inp_str = inp.lower()
     if inp_str not in activities:
-        print("Elmo: I do not have {0} on my list!".format(inp))
+        print(f"Elmo: I do not have {inp} on my list!")
         print("Elmo: Try again.")
         choose_activ()
     else:
-        print("Elmo: The {0} classes take place every Friday at 16:00.".format(inp))
+        print(f"Elmo: The {inp} classes take place every Friday at 16:00.")
         confirmation = input("Elmo: Is that OK for you?\nYou: ")
         if confirmation not in YES_ANSWERS:
-            print("Elmo: Do you want to start again?")
             restart()
         else:
             student = [name_str, inp_str]
@@ -104,7 +112,7 @@ def say_bye():
     bye = input("Elmo: Are you leaving now?\nYou: ")
     bye_str = bye.lower()
     if bye_str in YES_ANSWERS:
-        print("Elmo: Take care {0} <3".format(name_str))
+        print(f"Elmo: Bye bye {name_str}! Take care! <3")
         sys.exit()
     else:
         restart()
@@ -134,10 +142,8 @@ def start():
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
             choose_activ()
-        elif inp1_str in NO_ANSWERS:
-            tell_joke()
         else:
-            say_bye()
+            tell_joke()
 
 def save_name(data, worksheet):
     """
@@ -155,6 +161,42 @@ def main():
     """
     start()
 
-name_str = input("Elmo: What is your name?\nYou: ")
-print(name_str)
-print("Elmo: Hello {0}".format(name_str))
+# name_str = input("Elmo: What is your name?\nYou: ")
+# print(f"Elmo: Hello {name_str}!")
+# start()
+
+
+# Functions connected with chatbot converations:
+#Initialize Chatbot Training
+words=[]
+classes = []
+documents = []
+ignore_words = ['?', '!']
+data_file = open('intents.json').read()
+# Convert the JSON data into Python object
+intents = json.loads(data_file)
+
+# Text preprocessing
+for intent in intents['Intents']:
+    for pattern in intent['patterns']:
+        # take each word and tokenize it
+        w = nltk.word_tokenize(pattern)
+        words.extend(w)
+        # adding documents
+        documents.append((w, intent['tag']))
+        # adding classes to our class list
+        if intent['tag'] not in classes:
+            classes.append(intent['tag'])
+
+# Lemmatization
+# tokenized words are converted into shorten
+# root words to remove redundancy
+words = [lemmatizer.lemmatize(w.lower()) for w in words if w not in ignore_words]
+words = sorted(list(set(words)))
+
+classes = sorted(list(set(classes)))
+
+print(len(documents), "documents")
+print(len(classes), "classes", classes)
+print(len(words), "unique lemmatized words", words)
+
