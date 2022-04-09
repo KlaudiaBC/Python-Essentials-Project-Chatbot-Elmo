@@ -161,6 +161,7 @@ def main():
 words = []
 classes = []
 documents = []
+responses = []
 ignore_words = ['?', '!']
 data_file = open('intents.json').read()
 # Convert the JSON data into Python object
@@ -184,30 +185,51 @@ for intent in intents['Intents']:
 # tokenized words are converted into shorten
 # root words to remove redundancy
 # initializing bag of words
+
+
 bag = [lemmatizer.lemmatize(w) for w in words if w not in ignore_words]
 bag = sorted(list(set(words)))
 
+
 classes = sorted(list(set(classes)))
 
-
-
-# print(len(documents), "documents", documents)
+print(len(documents), "documents", documents)
 # print(len(classes), "classes", classes)
 # print(len(words), "unique lemmatized words", words)
-# print("Responses: ", random.choice(responses))
+
+# taking each response from each intent and connect it with a tag,
+# building a list of responses
+for intent in intents['Intents']:
+    for response in intent['responses']:
+        # adding documents (patterns)
+        responses.extend((response, intent['tag']))
+
+print(responses)
+
 
 message = input()
 
 def process_answer():
     for msg in message:
-        # take each word and tokenize it
+        # take each word and lemma
         msg = nlp(message)
         for token in msg:
             print(token.text, '\t', token.lemma_)
-    
-    print(msg)
+        msg_list = str(msg).split(",")
+
+    print(msg_list)
+
+    # check = any(item in msg_list for item in bag)
+    # if check == True:
+    #     print("Answer")
+    # else:
+    #     print("No ans")
 
 process_answer()
+
+
+
+
 
 
 # def display_question(question):
