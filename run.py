@@ -27,7 +27,7 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('elmo_act')
 
 # Declare required variables
-YES_ANSWERS = ["yes", "y", "ok", "sure", "yeah"]
+YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
 JOKE_ANS = ["joke"]
@@ -163,6 +163,7 @@ classes = []
 documents = []
 responses = []
 ignore_words = ['?', '!']
+
 data_file = open('intents.json').read()
 # Convert the JSON data into Python object
 intents = json.loads(data_file)
@@ -176,7 +177,7 @@ for intent in intents['Intents']:
         words.extend(w)
         # adding documents (patterns)
         documents.append((w, intent['tag']))
-        # adding classes (tags) to our class list
+        # adding classes (tags) to the class list
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
 
@@ -184,13 +185,12 @@ for intent in intents['Intents']:
 # in attempt to represent related words,
 # tokenized words are converted into shorten
 # root words to remove redundancy
-# initializing bag of words
 
-
+# Create bag of word:
 bag = [lemmatizer.lemmatize(w) for w in words if w not in ignore_words]
 bag = sorted(list(set(words)))
 
-
+# Create a sorted list of items:
 classes = sorted(list(set(classes)))
 
 print(len(documents), "documents", documents)
@@ -214,21 +214,17 @@ def process_answer():
         # take each word and lemma
         msg = nlp(message)
         for token in msg:
-            print(token.text, '\t', token.lemma_)
-        msg_list = str(msg).split(",")
+            msg_list = token.lemma_
 
     print(msg_list)
 
-    # check = any(item in msg_list for item in bag)
-    # if check == True:
-    #     print("Answer")
-    # else:
-    #     print("No ans")
+    check = any(item in msg_list for item in bag)
+    if check == True:
+        print("Answer")
+    else:
+        print("No ans")
 
 process_answer()
-
-
-
 
 
 
