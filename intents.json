@@ -56,7 +56,7 @@
     },
     {"tag": "bored",
         "patterns": [
-            "bored", "stupid", "waste"],
+            "bore", "boring", "stupid"],
         "responses": [
             "Sorry to hear that. I was trying my best!",
             "Sad to hear that, my creator belives I am funny.",

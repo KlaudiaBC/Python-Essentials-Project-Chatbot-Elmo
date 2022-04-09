@@ -194,17 +194,17 @@ bag = sorted(list(set(words)))
 classes = sorted(list(set(classes)))
 
 print(len(documents), "documents", documents)
-# print(len(classes), "classes", classes)
+print(len(classes), "classes", classes)
 # print(len(words), "unique lemmatized words", words)
 
 # taking each response from each intent and connect it with a tag,
 # building a list of responses
-for intent in intents['Intents']:
-    for response in intent['responses']:
-        # adding documents (patterns)
-        responses.extend((response, intent['tag']))
+# for intent in intents['Intents']:
+#     for response in intent['responses']:
+#         # adding documents (patterns)
+#         classes.append(intent['responses'])
 
-print(responses)
+# print(responses)
 
 
 message = input()
@@ -214,13 +214,13 @@ def process_answer():
         # take each word and lemma
         msg = nlp(message)
         for token in msg:
-            msg_list = token.lemma_
+            msg_lem = token.lemma_
 
-    print(msg_list)
+    print(msg_lem)
 
-    check = any(item in msg_list for item in bag)
+    check = any(item in msg_lem for item in bag)
     if check == True:
-        print("Answer")
+        print("ans")
     else:
         print("No ans")
 
