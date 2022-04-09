@@ -11,6 +11,8 @@ import json
 import numpy as np
 import random
 lemmatizer = WordNetLemmatizer()
+import spacy
+nlp = spacy.load('en_core_web_sm')
 
 # Connect and add creds into an external worksheet
 SCOPE = [
@@ -30,13 +32,6 @@ NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
 JOKE_ANS = ["joke"]
 
-# def display_question(question):
-#     """
-#     Iterate over key/value pairs in dict and print them
-#     """
-#     for key, value in question_dict.items():
-#         if key == question:
-#             print(value)
 
 # Functions connected with sign up process
 
@@ -171,30 +166,54 @@ data_file = open('intents.json').read()
 # Convert the JSON data into Python object
 intents = json.loads(data_file)
 
+
 # Text preprocessing
 for intent in intents['Intents']:
     for pattern in intent['patterns']:
         # take each word and tokenize it
         w = nltk.word_tokenize(pattern)
         words.extend(w)
-        # adding documents
+        # adding documents (patterns)
         documents.append((w, intent['tag']))
-        # adding classes to our class list
+        # adding classes (tags) to our class list
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
 
 # Lemmatization -  create base word,
-# in attempt to represent related words
+# in attempt to represent related words,
 # tokenized words are converted into shorten
 # root words to remove redundancy
 # initializing bag of words
-bag = [lemmatizer.lemmatize(w.lower()) for w in words if w not in ignore_words]
+bag = [lemmatizer.lemmatize(w) for w in words if w not in ignore_words]
 bag = sorted(list(set(words)))
 
 classes = sorted(list(set(classes)))
 
 
-print(len(documents), "documents")
-print(len(classes), "classes", classes)
-print(len(words), "unique lemmatized words", words)
 
+# print(len(documents), "documents", documents)
+# print(len(classes), "classes", classes)
+# print(len(words), "unique lemmatized words", words)
+# print("Responses: ", random.choice(responses))
+
+message = input()
+
+def process_answer():
+    for msg in message:
+        # take each word and tokenize it
+        msg = nlp(message)
+        for token in msg:
+            print(token.text, '\t', token.lemma_)
+    
+    print(msg)
+
+process_answer()
+
+
+# def display_question(question):
+#     """
+#     Iterate over key/value pairs in dict and print them
+#     """
+#     for key, value in question_dict.items():
+#         if key == question:
+#             print(value)

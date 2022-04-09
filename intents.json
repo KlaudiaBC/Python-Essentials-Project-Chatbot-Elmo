@@ -9,7 +9,7 @@
         "Such a pretty day, isn't it?"]
     },
     {"tag": "exit",
-        "patterns": ["Bye", "Goodbye", "go", "Exit"],
+        "patterns": ["bye", "goodbye", "go", "exit"],
         "responses": [
             "Bye! Hope to see you soon",
             "Have a great day",
