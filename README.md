@@ -74,7 +74,7 @@ As you can see on the example below, this simple and short code can already prov
 
 ## Implementation process
 
-### Setting the sign up process:
+### Setting the sign up process and API:
 I created a new project on the Google Cloud Platform and called it "Elmo activities".
 To access spreadsheet located in my google account I had to enable two API's:
 - Google Drive: credentials allows to securely access the google files
@@ -85,7 +85,7 @@ Once the credentials were set, I received a unique email address and created a k
 I added this file into my repository and called it: "creds.json". Then I copied the client email address stored in this file, and used it in the "Give access" section in my Google Sheets file.
 Then I added the creds.json into my gitignore file to make sure, this document will not be committed at any point into my repository as it does contain sensitive information which should be hidden.
 
-### Installing libraries:
+Installing libraries:
 At first, I added the required libraries to my run.py file:
 - google-auth - used to set up the authentication needed to access Google Cloud project
 - gspread - library of code needed to access and update data in the spreadsheet
@@ -120,10 +120,11 @@ I installed the libraries needed for further development:
 
 ## Technologies used:
 - <a href="https://www.python.org/" target="_blank">Python</a> - programming language
-- <a hrerf = "https://www.lucidchart.com/pages/" target="_blank>Lucidchart</a> - for the diagrams
-- <a href="http://pep8online.com/" target="_blank">Python</a> - check the code for PEP8 requirements
-- <a href="https://www.python.org/" target="_blank">Python</a> - programming language
-
+- <a href="https://id.heroku.com/login" target="_blank">Heroku</a> - for deployment
+- <a href="https://pythontutor.com/">Python Tutor</a> - for code visualisation
+- <a href="https://colab.research.google.com/">Google Colab</a> - for combining executable code 
+- <a hrerf = "https://www.lucidchart.com/" target="_blank">Lucidchart</a> - for the diagrams
+- <a href="http://pep8online.com/" target="_blank">Pep8 online</a> - check the code for PEP8 requirements
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="ack"></p>
@@ -143,7 +144,7 @@ In this place I would like to thank everyone, who added an knowledge and value t
 - <a href="https://data-flair.training/blogs/python-chatbot-project/amp/" target="_blank">"Python Chatbot Project – Learn to build your first chatbot using NLTK & Keras by DataFlair"</a>
 - <a href="https://www.datacamp.com/community/tutorials/decision-tree-classification-python" target="_blank">"Decision Tree Classification in Python" by datacamp</a>
 - <a href="https://www.comm100.com/blog/journey-mapping-chatbot-decision-tree-from-scratch.html/" target="_blank">"Journey Mapping for Chatbots" by Comm100</a>
-- <a href="https://www.youtube.com/watch?v=6GLFcm7dGiY" target="_blank>"Build a chatbot from scratch-Ultimate Chatbot Tutorial" by Tech With Sach</a>
+- <a href="https://www.youtube.com/watch?v=6GLFcm7dGiY" target="_blank">"Build a chatbot from scratch-Ultimate Chatbot Tutorial" by Tech With Sach</a>
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="deploy"></p>
