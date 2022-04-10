@@ -61,8 +61,24 @@ As you can see on the example below, this simple and short code can already prov
 ## Features
 
 ### Excisting features
+- Customised customer interactions - ChatBot has multiple personalised responses for a User
+- Quick registration- allows for subscribing to a selected activity list via the short and friendly conversation.
+- Easy deployment and messaging support - application is deployed via Herokuapp and is easy to use, all information needed for the User are provided in the bottom part of the terminal.
+- Integrations with 3rd party applications- the chatbot is connected with Google Cloud (Google Drive and Google Sheets).
+- Security and privacy of customer data- the data provided via User is stored in the authorised files with limited access.
+- Random jokes - as an element of a user-friendly environment adjusted to targeted groups of recipients.
+
 
 ### Future features
+Sign up process:
+- Ask User for more credentials - a Bot can request and collect multiple informations like: surname, date of birth etc.
+- Check availability - provide in the worksheets another row with data, containing the number of free places (for each activity). The Bot can check if this number is greater than 0 and only then allow User to register. Once registered, the Bot can subtract one from the amount of free places for particular activity and update the data.
+
+ChatBot features:
+- Allow human handover - connect with a human support once the expectations of the customer can not be met
+- Add UX/UI -  add design of the chat window as well as implementation of specific font, background or graphic signs (like emotions)
+- Add omnichannel messaging support - the feature which provides the integrations allowing ChatBot to be launched across the channels (User do not have to provide any information manually)
+- Expand the vocabulary - rule-based chatbots can be often annoying for a customers because they can't understand the actual intent of human queries. To improve User experience, the bot needs to have a great corpus and have to be equipped with the AI-training algorithms which allows it to become more intelligent and understand the User better.
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="data"></p>
