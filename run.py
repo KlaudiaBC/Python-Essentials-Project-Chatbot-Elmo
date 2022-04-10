@@ -170,6 +170,9 @@ intents = json.loads(data_file)
 
 
 # Text preprocessing
+# Bag of words - words included in
+# tags and patterns, which will be a base for
+# search for the right answer
 for intent in intents['Intents']:
     for pattern in intent['patterns']:
         # take each word and tokenize it
@@ -180,22 +183,22 @@ for intent in intents['Intents']:
         # adding classes (tags) to the class list
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
+    for response in intent['responses']:
+        responses.append(intent['responses'])
 
 # Lemmatization -  create base word,
 # in attempt to represent related words,
 # tokenized words are converted into shorten
 # root words to remove redundancy
+words = [lemmatizer.lemmatize(w) for w in words if w not in ignore_words]
+words = sorted(list(set(words)))
 
-# Create bag of word:
-bag = [lemmatizer.lemmatize(w) for w in words if w not in ignore_words]
-bag = sorted(list(set(words)))
-
-# Create a sorted list of items:
+# Create a sorted list of tags
 classes = sorted(list(set(classes)))
 
 print(len(documents), "documents", documents)
 print(len(classes), "classes", classes)
-# print(len(words), "unique lemmatized words", words)
+print(len(words), "unique lemmatized words", words)
 
 # taking each response from each intent and connect it with a tag,
 # building a list of responses
@@ -211,20 +214,34 @@ message = input()
 
 def process_answer():
     for msg in message:
+        # fix this words procesing!!
         # take each word and lemma
         msg = nlp(message)
         for token in msg:
             msg_lem = token.lemma_
+        
+        print(msg_lem)
 
-    print(msg_lem)
 
-    check = any(item in msg_lem for item in bag)
-    if check == True:
-        print("ans")
+
+    # check = any(item in msg_lem for item in words)
+    # if check == True:
+
+    if msg_lem in words:
+        for word in words:
+            if word == msg_lem:
+                for document in documents:
+                    if word in document:
+                        print("doc:", document[1])
     else:
-        print("No ans")
+        print("none")
+
+
 
 process_answer()
+
+# res = [i[1] for i in documents]
+# print(res)
 
 
 
