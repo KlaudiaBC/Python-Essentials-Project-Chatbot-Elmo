@@ -7,12 +7,32 @@
         "Hello, my Dear Friend",
         "Such a pretty day, isn't it?"]
     },
+    {"tag": "exit",
+        "patterns": ["exit", "bye", "go"],
+        "responses": [
+        "It was nice to talk to you."]
+    },
     {"tag": "thank",
-        "patterns": ["thank", "thanks", "thx"],
+        "patterns": ["thank", "you", "thanks", "thx"],
         "responses": [
         "You're welcome!",
         "Always happy to help!",
         "All pleasure is mine."]
+    },
+    {"tag": "address",
+        "patterns": ["address", "way", "school"],
+        "responses": [
+        "The address of 'Happy Kids' school is: 123 Sesame Street."]
+    },
+    {"tag": "contact",
+        "patterns": ["contact", "number", "phone", "email", "person"],
+        "responses": [
+        "You can contact my friend Big Bird, who will be able to help you. Just call 123-456-789."]
+    },
+    {"tag": "price",
+        "patterns": ["price", "cost", "money"],
+        "responses": [
+        "All activities in 'Happy Kids' are free! How cool is that!"]
     },
     {"tag": "joke",
         "patterns": ["joke"],
@@ -37,7 +57,7 @@
             "Why couldn't the bicycle stand? Because it was two tired."]
     },
     {"tag": "sad",
-        "patterns": ["sad", "lonely", "angry", "cry"],
+        "patterns": ["sad", "lonely", "angry", "cry", "mad"],
         "responses": [
             "I am sorry to hear that.",
             "I am here to listen, you can tell me what's wrong.",

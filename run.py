@@ -29,10 +29,11 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 # Declare required variables
 YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
-EXIT_WORDS = ["bye", "exit"]
+tags = []
+patterns = []
+responses = []
 
-
-# Functions connected with sign up process
+# Functions connected with sign up process:
 
 def get_activities():
     """
@@ -44,7 +45,6 @@ def get_activities():
     activ_string = ''
     for x in activ_row:
         activ_string += ' ' + x + ','
-
     return activ_string
 
 activities = get_activities()
@@ -80,25 +80,11 @@ def choose_activ():
         else:
             process_answer(inp_str)
 
-# def tell_joke():
-    """
-    Render random joke from the "jokes" list
-    After the user confirmed, he wants to hear a joke
-    or requested it via placing in the input word "joke"
-    """
-    # joke = input("Elmo: Would you like to hear funny joke?\nYou: ")
-    # if joke in YES_ANSWERS:
-    #     print("joke")
-    # elif joke in NO_ANSWERS:
-    #     say_bye()
-    # else:
-    #     process_answer(joke)
-
 def say_bye():
     """
+    Defining conversation end protocol
     If User request to end the program,
-    exits the terminal,
-    else: offer to display a joke
+    exit the terminal, else: restart or process the answer
     """ 
     bye = input("Elmo: Are you leaving now?\nYou: ")
     bye_str = bye.lower()
@@ -112,11 +98,12 @@ def say_bye():
 
 def restart():
     """
-    If user request to restart, render a first question
-    from the sign in process (function: start)
-    else: offer to dispaly a joke 
+    If user request to restart,
+    render a question with help offer
+    The answer will define: random reponse,
+    or option to exit the terminal
     """
-    restart_q = str(input("Elmo: Is there anything I can help you with?\nYou: "))
+    restart_q = str(input("Elmo: Is there anything else I can help you with?\nYou: "))
     if restart_q in YES_ANSWERS:
         lead_q = str(input("Elmo: What would you like to know?\nYou: "))
         process_answer(lead_q)
@@ -125,12 +112,12 @@ def restart():
     else:
         process_answer(restart_q)
 
-
 def start():
     """
-    Render a first main question, which will then
-    define the direction of the conversation:
-    sign up process or small talk/jokes 
+    Defining conversation start protocol
+    Render a first main question,
+    answer will then define the direction
+    of the conversation flow
     """
     while restart not in NO_ANSWERS:
         inp1 = input("Elmo: Would you like to sign up for the activities?\nYou: ")
@@ -153,65 +140,64 @@ def save_name(data, worksheet):
 
 
 # Functions connected with chatbot converations
-# Initialize Chatbot Training
-tags = []
-patterns = []
-responses = []
-ignore_words = ['?', '!']
 
+# Initialize Chatbot Training
 data_file = open('intents.json').read()
-# Convert the JSON data into Python object
+"""Convert the JSON data into Python object"""
 intents = json.loads(data_file)
 
-# assign the data from json file
-# into a lists with connected tags
 for intent in intents['Intents']:
+    """Assign the data from json file to variables"""
     if intent['patterns'] not in patterns:
         patterns.append((intent['patterns'], intent['tag']))
     if intent['responses'] not in responses:
         responses.append((intent['responses'], intent['tag']))
 
-
 def process_answer(message):
+    """
+    Tokenize and lemmatize the words
+    from the input, then search for it
+    in the patterns and via tag can
+    relate to correct, random answer
+    """
     for msg in message:
-        # Lemmatization -  create base word,
-        # in attempt to represent related words,
-        # tokenized words are converted into shorten
-        # root words to remove redundancy
         msg = nlp(message)
         for token in msg:
             msg_lem = token.lemma_
 
-    # Loops through a patterns and
-    # search for the one which contains
-    # word from the input, return tag
     for pattern in patterns:
         if msg_lem in pattern[0]:
-            # Loops through the responses to match the tag
-            # with a tag from patterns and render
-            # a random response from the list
             for response in responses:
                 if pattern[1] == response[1]:
                     res = random.choice(response[0])
                     print("Elmo:", res)
                     if pattern[1] == "joke":
-                        print("hahha")
-                        restart()
+                        print("Elmo: I hope I made you laugh :)")
                     elif pattern[1] == "exit":
                         say_bye()     
                     else:
                         restart()
 
-#Defining conversation start/end protocols
-def main():
+
+# Adding integration and calling the main function
+
+def welcome():
     """
     Initiate the program
-    Call functions in the specified order
+    Display greeting and instructions
     """
-    start()
-    message = input()
-    process_answer(message)
+    print("\n")
+    print("WELCOME!\n")
+    print("CHATBOT ELMO IS READY TO REGISTER YOU FOR THE ACTIVITIES OF YOUR CHOICE.")
+    print("HE IS CHEEKY AND LIKES TO JOKE.")
+    print("DON'T LET HIM CARRY AWAY WITH HIS TASKS :)")
+    print("YOU CAN TELL HIM HOW YOU FEEL OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
+    print("HE KNOWS THE ADDRESS, CONTACT AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
+    print("TOO LONG SENTENCES MAY CONFUSE ELMO")
+    print("AS HE IS VERY SMALL AND ONLY NOW STARTING TO LEARN.")
+    print("HAVE FUN! :)\n")
 
+welcome()
 print("Elmo: Hi. I am Elmo, your virtual friend.")
 name_str = input("Elmo: What is your name?\nYou: ")
 print(f"Elmo: Hello {name_str}! Nice to meet you!")
