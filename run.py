@@ -80,19 +80,19 @@ def choose_activ():
         else:
             process_answer(inp_str)
 
-def tell_joke():
+# def tell_joke():
     """
     Render random joke from the "jokes" list
     After the user confirmed, he wants to hear a joke
     or requested it via placing in the input word "joke"
     """
-    joke = input("Elmo: Would you like to hear funny joke?\nYou: ")
-    if joke in YES_ANSWERS:
-        print("joke")
-    elif joke in NO_ANSWERS:
-        say_bye()
-    else:
-        process_answer(joke)
+    # joke = input("Elmo: Would you like to hear funny joke?\nYou: ")
+    # if joke in YES_ANSWERS:
+    #     print("joke")
+    # elif joke in NO_ANSWERS:
+    #     say_bye()
+    # else:
+    #     process_answer(joke)
 
 def say_bye():
     """
@@ -138,7 +138,7 @@ def start():
         if inp1_str in YES_ANSWERS:
             choose_activ()
         elif inp1_str in NO_ANSWERS:
-            say_bye()
+            restart()
         else:
             process_answer(inp1_str)
 
@@ -193,9 +193,14 @@ def process_answer(message):
             for response in responses:
                 if pattern[1] == response[1]:
                     res = random.choice(response[0])
-            print(res)
-            restart()                   
-
+                    print("Elmo:", res)
+                    if pattern[1] == "joke":
+                        print("hahha")
+                        restart()
+                    elif pattern[1] == "exit":
+                        say_bye()     
+                    else:
+                        restart()
 
 #Defining conversation start/end protocols
 def main():
@@ -207,6 +212,7 @@ def main():
     message = input()
     process_answer(message)
 
+print("Elmo: Hi. I am Elmo, your virtual friend.")
 name_str = input("Elmo: What is your name?\nYou: ")
-print(f"Elmo: Hello {name_str}!")
+print(f"Elmo: Hello {name_str}! Nice to meet you!")
 start()

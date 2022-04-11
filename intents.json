@@ -7,13 +7,12 @@
         "Hello, my Dear Friend",
         "Such a pretty day, isn't it?"]
     },
-    {"tag": "exit",
-        "patterns": ["bye", "goodbye", "go", "exit"],
+    {"tag": "thank",
+        "patterns": ["thank", "thanks", "thx"],
         "responses": [
-            "Bye! Hope to see you soon",
-            "Have a great day",
-            "I will miss you!",
-            "Ciao amigo!"]
+        "You're welcome!",
+        "Always happy to help!",
+        "All pleasure is mine."]
     },
     {"tag": "joke",
         "patterns": ["joke"],
