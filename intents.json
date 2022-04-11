@@ -4,7 +4,6 @@
     "responses": [
         "Hello!",
         "Good to see you again",
-        "How are you today?",
         "Hello, my Dear Friend",
         "Such a pretty day, isn't it?"]
     },
@@ -41,9 +40,9 @@
     {"tag": "sad",
         "patterns": ["sad", "lonely", "angry", "cry"],
         "responses": [
-            "I am sorry to hear that. Do you want me to cheer you up?",
+            "I am sorry to hear that.",
             "I am here to listen, you can tell me what's wrong.",
-            "Ohh... Sorry to hear that. What can I do for you?"]
+            "Ohh... Don'be sad! Type 'joke' and let me cheer uou up!"]
     },
     {"tag": "happy",
         "patterns": ["happy", "good", "fine", "excited"],
@@ -63,8 +62,7 @@
             "Forgive me dear, I am still learning.",
             "I thought I can entertain you at least a bit...",
             "Sorry My Friend, I really do what I can.",
-            "All I can say is... wanna hear a joke? :)",
-            "Type word: joke and see what happens :)"]
+            "All I can say is... :)"]
     }
 ]
 }

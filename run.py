@@ -30,7 +30,6 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["bye", "exit"]
-JOKE_ANS = ["joke"]
 
 
 # Functions connected with sign up process
@@ -69,17 +68,17 @@ def choose_activ():
     inp_str = inp.lower()
     if inp_str not in activities:
         print(f"Elmo: I do not have {inp} on my list!")
-        print("Elmo: Try again.")
         choose_activ()
     else:
         print(f"Elmo: The {inp} classes take place every Friday at 16:00.")
         confirmation = input("Elmo: Is that OK for you?\nYou: ")
-        if confirmation not in YES_ANSWERS:
-            restart()
-        else:
+        if confirmation in YES_ANSWERS:
             student = [name_str, inp_str]
             save_name(student, 'students')
-            tell_joke()
+        elif confirmation in NO_ANSWERS:
+            restart()
+        else:
+            process_answer(inp_str)
 
 def tell_joke():
     """
@@ -88,11 +87,12 @@ def tell_joke():
     or requested it via placing in the input word "joke"
     """
     joke = input("Elmo: Would you like to hear funny joke?\nYou: ")
-    if joke in YES_ANSWERS or joke in JOKE_ANS:
+    if joke in YES_ANSWERS:
         print("joke")
-        tell_joke()
-    else:
+    elif joke in NO_ANSWERS:
         say_bye()
+    else:
+        process_answer(joke)
 
 def say_bye():
     """
@@ -105,8 +105,10 @@ def say_bye():
     if bye_str in YES_ANSWERS:
         print(f"Elmo: Bye bye {name_str}! Take care! <3")
         sys.exit()
+    elif bye_str in NO_ANSWERS:
+        restart()    
     else:
-        restart()
+        process_answer(bye_str)
 
 def restart():
     """
@@ -114,13 +116,15 @@ def restart():
     from the sign in process (function: start)
     else: offer to dispaly a joke 
     """
-    restart = str(input("Elmo: Would you like to start again?\nYou: "))
-    if restart in YES_ANSWERS:
-        restart = ('Y')
-    elif restart in NO_ANSWERS:
+    restart_q = str(input("Elmo: Is there anything I can help you with?\nYou: "))
+    if restart_q in YES_ANSWERS:
+        lead_q = str(input("Elmo: What would you like to know?\nYou: "))
+        process_answer(lead_q)
+    elif restart_q in NO_ANSWERS:
         say_bye()
     else:
-        tell_joke()
+        process_answer(restart_q)
+
 
 def start():
     """
@@ -133,8 +137,10 @@ def start():
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
             choose_activ()
+        elif inp1_str in NO_ANSWERS:
+            say_bye()
         else:
-            tell_joke()
+            process_answer(inp1_str)
 
 def save_name(data, worksheet):
     """
@@ -143,18 +149,8 @@ def save_name(data, worksheet):
     students = SHEET.worksheet(worksheet)
     students.append_row(data)
     print("Elmo: Excellent! You are now on the list!")
+    restart()
 
-
-def main():
-    """
-    Initiate the program
-    Call functions in the specified order
-    """
-    start()
-
-# name_str = input("Elmo: What is your name?\nYou: ")
-# print(f"Elmo: Hello {name_str}!")
-# start()
 
 # Functions connected with chatbot converations
 # Initialize Chatbot Training
@@ -167,7 +163,7 @@ data_file = open('intents.json').read()
 # Convert the JSON data into Python object
 intents = json.loads(data_file)
 
-# training the bot - assign the data from json file
+# assign the data from json file
 # into a lists with connected tags
 for intent in intents['Intents']:
     if intent['patterns'] not in patterns:
@@ -176,9 +172,7 @@ for intent in intents['Intents']:
         responses.append((intent['responses'], intent['tag']))
 
 
-message = input()
-
-def process_answer():
+def process_answer(message):
     for msg in message:
         # Lemmatization -  create base word,
         # in attempt to represent related words,
@@ -199,6 +193,20 @@ def process_answer():
             for response in responses:
                 if pattern[1] == response[1]:
                     res = random.choice(response[0])
-            print(res)                    
+            print(res)
+            restart()                   
 
-process_answer()
+
+#Defining conversation start/end protocols
+def main():
+    """
+    Initiate the program
+    Call functions in the specified order
+    """
+    start()
+    message = input()
+    process_answer(message)
+
+name_str = input("Elmo: What is your name?\nYou: ")
+print(f"Elmo: Hello {name_str}!")
+start()
