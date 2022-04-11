@@ -158,7 +158,6 @@ def main():
 
 # Functions connected with chatbot converations
 # Initialize Chatbot Training
-words = []
 tags = []
 patterns = []
 responses = []
@@ -168,39 +167,38 @@ data_file = open('intents.json').read()
 # Convert the JSON data into Python object
 intents = json.loads(data_file)
 
+# training the bot - assign the data from json file
+# into a lists with connected tags
 for intent in intents['Intents']:
     if intent['patterns'] not in patterns:
         patterns.append((intent['patterns'], intent['tag']))
     if intent['responses'] not in responses:
         responses.append((intent['responses'], intent['tag']))
 
-print("patterns: ", patterns)
-print("responses: ", responses)
-
-# Lemmatization -  create base word,
-# in attempt to represent related words,
-# tokenized words are converted into shorten
-# root words to remove redundancy
-words = [lemmatizer.lemmatize(w) for w in words if w not in ignore_words]
-words = sorted(list(set(words)))
 
 message = input()
 
 def process_answer():
     for msg in message:
-        # fix this words procesing!!
-        # take each word and lemma
+        # Lemmatization -  create base word,
+        # in attempt to represent related words,
+        # tokenized words are converted into shorten
+        # root words to remove redundancy
         msg = nlp(message)
         for token in msg:
             msg_lem = token.lemma_
-        
-        print(msg_lem)
 
+    # Loops through a patterns and
+    # search for the one which contains
+    # word from the input, return tag
     for pattern in patterns:
         if msg_lem in pattern[0]:
-            msg_tag = pattern[1]
+            # Loops through the responses to match the tag
+            # with a tag from patterns and render
+            # a random response from the list
             for response in responses:
-                if msg_tag == response[1]:
-                    print(random.choice(response[0]))
+                if pattern[1] == response[1]:
+                    res = random.choice(response[0])
+            print(res)                    
 
 process_answer()
