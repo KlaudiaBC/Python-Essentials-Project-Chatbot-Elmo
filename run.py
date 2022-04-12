@@ -190,18 +190,18 @@ def welcome():
     Display greeting and instructions
     """
     print("")
-    print("WELCOME!\n")
-    print("CHATBOT ELMO IS READY TO REGISTER YOU")
-    print("FOR THE ACTIVITIES OF YOUR CHOICE.")
-    print("HE IS CHEEKY AND LIKES TO JOKE.")
+    print("           WELCOME!\n")
+    print(" CHATBOT ELMO IS READY TO REGISTER YOU")
+    print("  FOR THE ACTIVITIES OF YOUR CHOICE.")
+    print("   HE IS CHEEKY AND LIKES TO JOKE")
     print("DON'T LET HIM CARRY AWAY WITH HIS TASKS :)")
-    print("YOU CAN TELL HIM HOW YOU FEEL")
+    print("    YOU CAN TELL HIM HOW YOU FEEL")
     print("OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
-    print("HE KNOWS THE ADDRESS, CONTACT")
-    print("AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
-    print("TOO LONG SENTENCES MAY CONFUSE ELMO")
-    print("AS HE IS VERY SMALL AND ONLY NOW STARTING TO LEARN.")
-    print("HAVE FUN! :)\n")
+    print("    HE KNOWS THE ADDRESS, CONTACT")
+    print(" AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
+    print("  TOO LONG SENTENCES MAY CONFUSE ELMO")
+    print("  AS HE IS ONLY NOW STARTING TO LEARN.")
+    print("     I HOPE YOU'LL HAVE FUN! :)\n")
 
 
 welcome()
