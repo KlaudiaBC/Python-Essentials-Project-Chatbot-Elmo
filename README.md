@@ -4,7 +4,7 @@
 <p id="welcome"></p>
 
 ## This is my Portfolio 3 Project regarding the Code Institute's Diploma in Software Development (E-commerce Applications).
-It is a customized ChatBot built using Python.
+It is a customized ChatBot built in Python and deployed in the Code Institute mock terminal on Heroku.
 
 <p align="center">
   <img src="" alt="">
@@ -12,7 +12,7 @@ It is a customized ChatBot built using Python.
 
 ## Table of contents
 - <a href="#content">Content</a>
-- <a href="#uj">User journey</a>
+- <a href="#uj">User stories</a>
 - <a href="#fe">Features</a>
 - <a href="#data">Data model</a>
 - <a href="#ip">Implementation process</a>
@@ -40,9 +40,13 @@ There are many different approaches of building chatbots. The choice depends mos
 
 During preparation of this project I have tried several ways to create a chatbot, including:
 1. Chatbot based on the build-in python libraries, designed for chatbots (like chatterbot)
-As you can see on the example below, this simple and short code can already provide User with a back-to-back conversation, but the bot is missing logic and some answers do not match the question, therefore it is a great way to start but it does require further implementations/ Example
+As you can see on the example below, this simple and short code can already provide User with a back-to-back conversation, but the bot is missing logic and some answers do not match the question, therefore it is a great way to start but it does require further implementations. See example:
 
-2. Chatbot trained to search for the words converted into a binary system and stored in bag of words. Matching process is based on the percentage of repeated matches. I believe this bot could be very powerful once the intents and all vocabulary is prepared in a logical and complex way/ Example
+<p align="center">
+  <img src="" alt="">
+</p>
+
+2. Chatbot trained to search for the words converted into a binary system and stored in bag of words. Matching process is based on the percentage of repeated matches. I believe this bot could be very powerful once the intents and all vocabulary is prepared in a logical and complex way.
 
 3. Currently it is also very common to use the Chatbot Platforms, which does not require any knowledge of coding and are already stocked with a great range of vocabulary. The most popular ones include:
 - <a href="https://cloud.google.com/dialogflow" target="_blank">Dialogflow by Google Clouds</a>
@@ -50,10 +54,15 @@ As you can see on the example below, this simple and short code can already prov
 - <a href="https://chatfuel.com/" target="_blank">Chatfuel</a>
 - <a href="https://mobilemonkey.com/" target="_blank">MobileMonkey</a>
 
+Example of Dialogflow project:
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/dialogflow.png?raw=true" alt="dialogflow">
+</p>
+
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="uj"></p>
 
-## User journey
+## User stories
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="fe"></p>
@@ -84,6 +93,18 @@ ChatBot features:
 <p id="data"></p>
 
 ## Data model
+
+1. Decision tree:
+I created a map of the possible outcomes of a series of related choices. My decision tree starts with a single node, which branches into two possible outcomes. Each of those outcomes leads to additional nodes, which connect with new possibilities. The end point is when the User makes a decision about exiting the terminal via typing one of exit words or confirm exit while asked an exit question. If the User will provide requested information, the outcome will be to pass the data into the desired spreadsheet. See the flowchart:
+ 
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/main_conv.png?raw=true" alt="data tree">
+</p>
+
+2. Nested lists:
+I have declared the variable "Intents" to store a list that contains ten objects. Each object contains a nested list of three elements: tag, pattern and responses. Each element in this data structure has its name/value pair, so for name "intents" - there are six values, for name "tag" there is one value and so on.
+
+See pic.
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="ip"></p>
@@ -127,20 +148,50 @@ I installed the libraries needed for further development:
 - WordNetLemmatizer - lexical database for the English language, used to establish structured semantic relationships between words
 - nltk.stem - Interfaces used to remove morphological affixes from words, leaving only the word stem
 - json - needed to read the json file
-- numpy -   library supporting processing multi-dimensional arrays and matrices
 - random -  Returns a random element from the given sequence
 - spacy - software library for advanced natural language processing
+
+I stored the particular parts of the data in variables in the way: pattern+tag and responses+tag. Then I created a function which will process the text from the input.
+1. Tokanization - the process of converting a sequence of characters into a sequence of tokens (strings with an assigned meaning). I have used build in function provided with nltk library in order to tokenize the answers.
+2. Lemmatization - the process of reducing inflection in words to their root forms - lemmas. Another way to achieve the processing of the word into its root version is called stemming. The main difference between those two ways is that the stemming removes only the last characters of the word, where lemmatization takes into consideration context so can provide better correction of words.
+
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/text_processing.png?raw=true" alt="word processing">
+ </p>
+
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/tokenize.png?raw=true" alt="tokenization">
+</p>
+
+Once the answer was brought to the root word, I created a loop with a nested loops, which checks if:
+- the object (word) match with any object on the patterns list
+- if the tag of pattern where the object exists matches to any tag in patterns list
+- if this tag matches to any tag in responses list
+
+Finally once all mapping is done:
+- choose the random response from the responses array stored on the list containing matching tag
+
+In other words, the function is looking for a pattern (a list of predicted words) which contains the processed word from the input and is assigned to this patterns tag. Then it looks for the same tag in the responses list and via this tag is able to display response matching to Users input.
+
+### Integration of the root conversation with chatbot responses:
+Since I have built those two parts of functionality apart, it was time to connect them. 
+
+The main goal: root conversation- allow users to register for activities. Once User chooses yes in the first question and follows the next queries, he will be able to achieve this goal in less than 5 min with no effort.
+If the User will choose "no" in the first question or in any other queries, he will be sent back into a second node question.
+If User types any other word in the input field- the bot will display the answer and lead back to the top of the root- the second node question.
+
+After the process of registration is done, User is sent to the second node and can sign up for more activities or continue conversation (ask for information, joke, tell about feelings). The main loop of the tree is executing the root continuously until the User will confirm the desire to end the process.
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="tu"></p>
 
 ## Technologies used:
-- <a href="https://www.python.org/" target="_blank">Python</a> - programming language
-- <a href="https://id.heroku.com/login" target="_blank">Heroku</a> - for deployment
+- <a href="https://www.python.org/">Python</a> - programming language
+- <a href="https://id.heroku.com/login">Heroku</a> - for deployment
 - <a href="https://pythontutor.com/">Python Tutor</a> - for code visualisation
 - <a href="https://colab.research.google.com/">Google Colab</a> - for combining executable code 
-- <a hrerf = "https://www.lucidchart.com/" target="_blank">Lucidchart</a> - for the diagrams
-- <a href="http://pep8online.com/" target="_blank">Pep8 online</a> - check the code for PEP8 requirements
+- <a href="https://www.draw.io/">Draw.io</a> - for the diagrams
+- <a href="http://pep8online.com/">Pep8 online</a> - check the code for PEP8 requirements
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="ack"></p>
@@ -153,14 +204,14 @@ In this place I would like to thank everyone, who added an knowledge and value t
 - Code Institute Slack Community
 - <a href="https://www.w3schools.com/" target="_blank">W3schools</a>
 - <a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a>
-- <a href="https://m.youtube.com/watch?v=c_gXrw1RoKo" target="_blank">"Build your own chatbot using Python" by Great Learning</a>
-- <a href="https://www.freecodecamp.org/news/how-to-build-an-end-to-end-conversational-ai-system-using-behavior-trees-658a7122e794/" target="_blank">"How to Build an End-to-End Conversational AI System using Behavior Trees" by freeCodeCamp</a>
-- <a href="https://stackoverflow.com/" target="_blank">"How to Make a Chatbot in Python Step By Step" by upGrad</a>
-- <a href="https://m.youtube.com/watch?v=wypVcNIH6D4&list=PLzMcBGfZo4-ndH9FoC4YWHGXG5RZekt-Q&index=1&t=30s" target="_blank">"Python ChatBot Tutorial" by Tech With Tim</a>
-- <a href="https://data-flair.training/blogs/python-chatbot-project/amp/" target="_blank">"Python Chatbot Project – Learn to build your first chatbot using NLTK & Keras by DataFlair"</a>
-- <a href="https://www.datacamp.com/community/tutorials/decision-tree-classification-python" target="_blank">"Decision Tree Classification in Python" by datacamp</a>
-- <a href="https://www.comm100.com/blog/journey-mapping-chatbot-decision-tree-from-scratch.html/" target="_blank">"Journey Mapping for Chatbots" by Comm100</a>
-- <a href="https://www.youtube.com/watch?v=6GLFcm7dGiY" target="_blank">"Build a chatbot from scratch-Ultimate Chatbot Tutorial" by Tech With Sach</a>
+- <a href="https://m.youtube.com/watch?v=c_gXrw1RoKo" target="_blank">"Build your own chatbot using Python"</a> by Great Learning
+- <a href="https://www.freecodecamp.org/news/how-to-build-an-end-to-end-conversational-ai-system-using-behavior-trees-658a7122e794/" target="_blank">"How to Build an End-to-End Conversational AI System using Behavior Trees"</a> by freeCodeCamp
+- <a href="https://stackoverflow.com/" target="_blank">"How to Make a Chatbot in Python Step By Step"</a> by upGrad
+- <a href="https://m.youtube.com/watch?v=wypVcNIH6D4&list=PLzMcBGfZo4-ndH9FoC4YWHGXG5RZekt-Q&index=1&t=30s" target="_blank">"Python ChatBot Tutorial"</a> by Tech With Tim
+- <a href="https://data-flair.training/blogs/python-chatbot-project/amp/" target="_blank">"Python Chatbot Project – Learn to build your first chatbot using NLTK & Keras"</a> by DataFlair
+- <a href="https://www.datacamp.com/community/tutorials/decision-tree-classification-python" target="_blank">"Decision Tree Classification in Python"</a> by datacamp
+- <a href="https://www.comm100.com/blog/journey-mapping-chatbot-decision-tree-from-scratch.html/" target="_blank">"Journey Mapping for Chatbots"</a> by Comm100
+- <a href="https://www.youtube.com/watch?v=6GLFcm7dGiY" target="_blank">"Build a chatbot from scratch-Ultimate Chatbot Tutorial"</a> by Tech With Sach
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="deploy"></p>
@@ -186,5 +237,52 @@ In this place I would like to thank everyone, who added an knowledge and value t
 <p id="test"></p>
 
 ## Testing
+
+Continuous testing during app development was implemented via printing each individual function right after creating it to ensure expected results were met.
+The features, which were taken into a testing, are listed below.
+
+<table>
+  <tr>
+    <th>Element</th>
+    <th>Expected result</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>Name input field</td>
+    <td>The name is correctly displayed in the greeting sentence: "hello" + name from the input.</td>
+    <td>Pass</td>
+  </tr>
+    <tr>
+    <td>Render activities</td>
+    <td>The available activities are correctly displayed for the User and are compatible with activities provided in the connected spreadsheet.</td>
+    <td>Pass</td>
+  </tr>
+    <tr>
+    <td> Registration</td>
+    <td>After User confirms the desire to be signed up for a specific list of activities, the data he provided is sent and appended in a connected spreadsheet.</td>
+    <td>Pass</td>
+  </tr>
+    <tr>
+    <td>Display joke</td>
+    <td>Once User asks for a joke via the input field, the random joke will be rendered and the app returns into the second child node query.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Small talk</td>
+    <td>The words provided by User are processed into a root word which allows the user to display correct responses out of available responses: address, contact, cost, feelings (sad, happy, bored), thank, greeting, exit.</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>Exit</td>
+    <td>Once the User confirms the will to exit the terminal, the terminal is shut.</td>
+    <td>Pass</td>
+  </tr>
+</table>
+
+The code was validated through the PEP8 online and the syntax is correct.
+
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/pep8.png?raw=true" alt="pep8">
+</p>
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
