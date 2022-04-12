@@ -29,9 +29,11 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 # Declare required variables
 YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
+STOP_WORDS = ["?", "!", "you", "the", "a", "an", "so", "what"]
 tags = []
 patterns = []
 responses = []
+activ = SHEET.worksheet("activities").get_all_values()
 
 # Functions connected with sign up process:
 
@@ -40,7 +42,6 @@ def get_activities():
     Collects first row of data from activities worksheet,
     and returns the data as a list of items.
     """
-    activ = SHEET.worksheet("activities").get_all_values()
     activ_row = activ[0]
     activ_string = ''
     for x in activ_row:
@@ -54,7 +55,9 @@ def get_date():
     Collects first row of data from activities worksheet,
     and returns the data as a list of strings.
     """
-    pass
+    activ_ = activ[0]
+    date = activ[1]
+
 
 def choose_activ():
     """
@@ -70,8 +73,8 @@ def choose_activ():
         print(f"Elmo: I do not have {inp} on my list!")
         choose_activ()
     else:
-        print(f"Elmo: The {inp} classes take place every Friday at 16:00.")
-        confirmation = input("Elmo: Is that OK for you?\nYou: ")
+        print(f"Elmo: I will add you to the list for the {inp_str} classes.")
+        confirmation = input("Elmo: Is that correct?\nYou: ")
         if confirmation in YES_ANSWERS:
             student = [name_str, inp_str]
             save_name(student, 'students')
@@ -160,11 +163,14 @@ def process_answer(message):
     in the patterns and via tag can
     relate to correct, random answer
     """
+    if "who" in message:
+        print("Elmo: I am Elmo, a chatbot who likes to joke.")
+
     for msg in message:
         msg = nlp(message)
         for token in msg:
             msg_lem = token.lemma_
-
+    
     for pattern in patterns:
         if msg_lem in pattern[0]:
             for response in responses:
@@ -186,7 +192,7 @@ def welcome():
     Initiate the program
     Display greeting and instructions
     """
-    print("\n")
+    print("")
     print("WELCOME!\n")
     print("CHATBOT ELMO IS READY TO REGISTER YOU FOR THE ACTIVITIES OF YOUR CHOICE.")
     print("HE IS CHEEKY AND LIKES TO JOKE.")

@@ -15,9 +15,7 @@
     {"tag": "thank",
         "patterns": ["thank", "you", "thanks", "thx"],
         "responses": [
-        "You're welcome!",
-        "Always happy to help!",
-        "All pleasure is mine."]
+        "Always happy to help!"]
     },
     {"tag": "address",
         "patterns": ["address", "way", "school"],
