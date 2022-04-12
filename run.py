@@ -1,17 +1,16 @@
-# Add required libraries
+""" Add required libraries"""
+import sys
+import json
+import random
 import gspread
 from google.oauth2.service_account import Credentials
-import sys
 import nltk
+import spacy
 from nltk.stem import WordNetLemmatizer
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
-import json
-import numpy as np
-import random
 lemmatizer = WordNetLemmatizer()
-import spacy
 nlp = spacy.load('en_core_web_sm')
 
 # Connect and add creds into an external worksheet
@@ -37,6 +36,7 @@ activ = SHEET.worksheet("activities").get_all_values()
 
 # Functions connected with sign up process:
 
+
 def get_activities():
     """
     Collects first row of data from activities worksheet,
@@ -44,19 +44,12 @@ def get_activities():
     """
     activ_row = activ[0]
     activ_string = ''
-    for x in activ_row:
-        activ_string += ' ' + x + ','
+    for word in activ_row:
+        activ_string += ' ' + word + ','
     return activ_string
 
-activities = get_activities()
 
-def get_date():
-    """
-    Collects first row of data from activities worksheet,
-    and returns the data as a list of strings.
-    """
-    activ_ = activ[0]
-    date = activ[1]
+activities = get_activities()
 
 
 def choose_activ():
@@ -83,21 +76,23 @@ def choose_activ():
         else:
             process_answer(inp_str)
 
+
 def say_bye():
     """
     Defining conversation end protocol
     If User request to end the program,
     exit the terminal, else: restart or process the answer
-    """ 
+    """
     bye = input("Elmo: Are you leaving now?\nYou: ")
     bye_str = bye.lower()
     if bye_str in YES_ANSWERS:
         print(f"Elmo: Bye bye {name_str}! Take care! <3")
         sys.exit()
     elif bye_str in NO_ANSWERS:
-        restart()    
+        restart()
     else:
         process_answer(bye_str)
+
 
 def restart():
     """
@@ -106,7 +101,9 @@ def restart():
     The answer will define: random reponse,
     or option to exit the terminal
     """
-    restart_q = str(input("Elmo: Is there anything else I can help you with?\nYou: "))
+    print("Elmo: Is there anything else I can help you with?")
+    restart_ = str(input("You: "))
+    restart_q = restart_.lower()
     if restart_q in YES_ANSWERS:
         lead_q = str(input("Elmo: What would you like to know?\nYou: "))
         process_answer(lead_q)
@@ -114,6 +111,7 @@ def restart():
         say_bye()
     else:
         process_answer(restart_q)
+
 
 def start():
     """
@@ -123,7 +121,8 @@ def start():
     of the conversation flow
     """
     while restart not in NO_ANSWERS:
-        inp1 = input("Elmo: Would you like to sign up for the activities?\nYou: ")
+        print("Elmo: Would you like to sign up for the activities?")
+        inp1 = input("You: ")
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
             choose_activ()
@@ -131,6 +130,7 @@ def start():
             restart()
         else:
             process_answer(inp1_str)
+
 
 def save_name(data, worksheet):
     """
@@ -144,17 +144,15 @@ def save_name(data, worksheet):
 
 # Functions connected with chatbot converations
 
-# Initialize Chatbot Training
 data_file = open('intents.json').read()
-"""Convert the JSON data into Python object"""
 intents = json.loads(data_file)
 
 for intent in intents['Intents']:
-    """Assign the data from json file to variables"""
     if intent['patterns'] not in patterns:
         patterns.append((intent['patterns'], intent['tag']))
     if intent['responses'] not in responses:
         responses.append((intent['responses'], intent['tag']))
+
 
 def process_answer(message):
     """
@@ -170,7 +168,6 @@ def process_answer(message):
         msg = nlp(message)
         for token in msg:
             msg_lem = token.lemma_
-    
     for pattern in patterns:
         if msg_lem in pattern[0]:
             for response in responses:
@@ -180,7 +177,7 @@ def process_answer(message):
                     if pattern[1] == "joke":
                         print("Elmo: I hope I made you laugh :)")
                     elif pattern[1] == "exit":
-                        say_bye()     
+                        say_bye()
                     else:
                         restart()
 
@@ -194,14 +191,18 @@ def welcome():
     """
     print("")
     print("WELCOME!\n")
-    print("CHATBOT ELMO IS READY TO REGISTER YOU FOR THE ACTIVITIES OF YOUR CHOICE.")
+    print("CHATBOT ELMO IS READY TO REGISTER YOU")
+    print("FOR THE ACTIVITIES OF YOUR CHOICE.")
     print("HE IS CHEEKY AND LIKES TO JOKE.")
     print("DON'T LET HIM CARRY AWAY WITH HIS TASKS :)")
-    print("YOU CAN TELL HIM HOW YOU FEEL OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
-    print("HE KNOWS THE ADDRESS, CONTACT AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
+    print("YOU CAN TELL HIM HOW YOU FEEL")
+    print("OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
+    print("HE KNOWS THE ADDRESS, CONTACT")
+    print("AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
     print("TOO LONG SENTENCES MAY CONFUSE ELMO")
     print("AS HE IS VERY SMALL AND ONLY NOW STARTING TO LEARN.")
     print("HAVE FUN! :)\n")
+
 
 welcome()
 print("Elmo: Hi. I am Elmo, your virtual friend.")
