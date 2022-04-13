@@ -52,6 +52,20 @@ def get_activities():
 activities = get_activities()
 
 
+def get_date():
+    """
+    Collects first row of data from activities worksheet,
+    and returns the data as a list of strings.
+    """
+    activ_ = activ[0]
+    date = activ[1]
+    i = 0
+
+    while i < len(activ_):
+        print("-", activ_[i], " - ", date[i])
+        i = i + 1
+
+
 def choose_activ():
     """
     Display the time of chosen activities
@@ -59,7 +73,8 @@ def choose_activ():
     Once the User provide the required data,
     push this data into a spreadsheet
     """
-    print("Elmo: The activities are:" + get_activities())
+    print("Elmo: The activities are as follow:")
+    get_date()
     inp = input("Elmo: Which activity would you like to sign up for?\nYou: ")
     inp_str = inp.lower()
     if inp_str not in activities:
@@ -190,18 +205,19 @@ def welcome():
     Display greeting and instructions
     """
     print("")
-    print("           WELCOME!\n")
-    print(" CHATBOT ELMO IS READY TO REGISTER YOU")
-    print("  FOR THE ACTIVITIES OF YOUR CHOICE.")
-    print("   HE IS CHEEKY AND LIKES TO JOKE")
-    print("DON'T LET HIM CARRY AWAY WITH HIS TASKS :)")
-    print("    YOU CAN TELL HIM HOW YOU FEEL")
-    print("OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
-    print("    HE KNOWS THE ADDRESS, CONTACT")
-    print(" AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
-    print("  TOO LONG SENTENCES MAY CONFUSE ELMO")
-    print("  AS HE IS ONLY NOW STARTING TO LEARN.")
-    print("     I HOPE YOU'LL HAVE FUN! :)\n")
+    print("                    WELCOME!\n")
+    print("      CHATBOT ELMO IS READY TO REGISTER YOU")
+    print("       FOR THE ACTIVITIES OF YOUR CHOICE.")
+    print("         HE IS CHEEKY AND LIKES TO JOKE")
+    print("         DON'T LET HIM GET CARRIED AWAY")
+    print("                WITH HIS TASKS :)")
+    print("          YOU CAN TELL HIM HOW YOU FEEL")
+    print("     OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
+    print("          HE KNOWS THE ADDRESS, CONTACT")
+    print("      AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
+    print("      TOO LONG SENTENCES MAY CONFUSE ELMO")
+    print("      AS HE IS ONLY NOW STARTING TO LEARN.")
+    print("          I HOPE YOU'LL HAVE FUN! :)\n")
 
 
 welcome()
