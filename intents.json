@@ -7,11 +7,6 @@
         "Hello, my Dear Friend",
         "Such a pretty day, isn't it?"]
     },
-    {"tag": "exit",
-        "patterns": ["exit", "bye", "go"],
-        "responses": [
-        "It was nice to talk to you."]
-    },
     {"tag": "thank",
         "patterns": ["thank", "you", "thanks", "thx"],
         "responses": [

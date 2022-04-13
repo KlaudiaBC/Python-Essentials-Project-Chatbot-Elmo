@@ -7,6 +7,7 @@ from google.oauth2.service_account import Credentials
 import nltk
 import spacy
 from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import RegexpTokenizer
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -28,6 +29,7 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 # Declare required variables
 YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
+EXIT_WORDS = ["exit", "bye", "go"]
 STOP_WORDS = ["?", "!", "you", "the", "a", "an", "so", "what"]
 tags = []
 patterns = []
@@ -77,7 +79,9 @@ def choose_activ():
     get_date()
     inp = input("Elmo: Which activity would you like to sign up for?\nYou: ")
     inp_str = inp.lower()
-    if inp_str not in activities:
+    if inp_str in EXIT_WORDS:
+        say_bye()
+    elif inp_str not in activities:
         print(f"Elmo: I do not have {inp} on my list!")
         choose_activ()
     else:
@@ -124,6 +128,8 @@ def restart():
         process_answer(lead_q)
     elif restart_q in NO_ANSWERS:
         say_bye()
+    elif restart_q in EXIT_WORDS:
+        say_bye()
     else:
         process_answer(restart_q)
 
@@ -144,7 +150,10 @@ def start():
         elif inp1_str in NO_ANSWERS:
             restart()
         else:
-            process_answer(inp1_str)
+            if inp1_str in EXIT_WORDS:
+                say_bye()
+            else:
+                process_answer(inp1_str)
 
 
 def save_name(data, worksheet):
@@ -157,7 +166,7 @@ def save_name(data, worksheet):
     restart()
 
 
-# Functions connected with chatbot converations
+# Functions connected with chatbot converation
 
 data_file = open('intents.json').read()
 intents = json.loads(data_file)
@@ -189,9 +198,12 @@ def process_answer(message):
                 if pattern[1] == response[1]:
                     res = random.choice(response[0])
                     print("Elmo:", res)
+                    inp_i = input("You: ")
+                    process_answer(inp_i)
                     if pattern[1] == "joke":
-                        print("Elmo: I hope I made you laugh :)")
-                    elif pattern[1] == "exit":
+                        inp_j = input("You: ")
+                        process_answer(inp_j)
+                    elif pattern[1] in EXIT_WORDS:
                         say_bye()
                     else:
                         restart()
@@ -199,29 +211,34 @@ def process_answer(message):
 
 # Adding integration and calling the main function
 
+
 def welcome():
     """
     Initiate the program
     Display greeting and instructions
     """
+    line_a = "   =======================================================\
+=====================   \n"
     print("")
-    print("                    WELCOME!\n")
-    print("      CHATBOT ELMO IS READY TO REGISTER YOU")
-    print("       FOR THE ACTIVITIES OF YOUR CHOICE.")
-    print("         HE IS CHEEKY AND LIKES TO JOKE")
-    print("         DON'T LET HIM GET CARRIED AWAY")
-    print("                WITH HIS TASKS :)")
-    print("          YOU CAN TELL HIM HOW YOU FEEL")
-    print("     OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
-    print("          HE KNOWS THE ADDRESS, CONTACT")
-    print("      AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
-    print("      TOO LONG SENTENCES MAY CONFUSE ELMO")
-    print("      AS HE IS ONLY NOW STARTING TO LEARN.")
-    print("          I HOPE YOU'LL HAVE FUN! :)\n")
+    print(line_a)
+    print("                                   WELCOME!\n")
+    print("                     CHATBOT ELMO IS READY TO REGISTER YOU")
+    print("                      FOR THE ACTIVITIES OF YOUR CHOICE.")
+    print("                        HE IS CHEEKY AND LIKES TO JOKE")
+    print("                      SO DON'T LET HIM GET CARRIED AWAY :)")
+    print("                        YOU CAN TELL HIM HOW YOU FEEL")
+    print("                   OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
+    print("                        HE KNOWS THE ADDRESS, CONTACT")
+    print("                      AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
+    print("                      TOO LONG SENTENCES MAY CONFUSE ELMO")
+    print("                     AS HE IS ONLY NOW STARTING TO LEARN.")
+    print("                   TO END THE CONVERSATION JUST TYPE: EXIT")
+    print("                          I HOPE YOU'LL HAVE FUN! :)\n")
+    print(line_a)
 
 
 welcome()
-print("Elmo: Hi. I am Elmo, your virtual friend.")
+print("Elmo: Hi. I am Elmo, your virtual friend :)")
 name_str = input("Elmo: What is your name?\nYou: ")
 print(f"Elmo: Hello {name_str}! Nice to meet you!")
 start()
