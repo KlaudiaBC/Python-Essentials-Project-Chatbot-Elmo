@@ -35,25 +35,10 @@ tags = []
 patterns = []
 responses = []
 activ = SHEET.worksheet("activities").get_all_values()
+activities = activ[0]
+
 
 # Functions connected with sign up process:
-
-
-def get_activities():
-    """
-    Collects first row of data from activities worksheet,
-    and returns the data as a list of items.
-    """
-    activ_row = activ[0]
-    activ_string = ''
-    for word in activ_row:
-        activ_string += ' ' + word + ','
-    return activ_string
-
-
-activities = get_activities()
-
-
 def get_date():
     """
     Collects first row of data from activities worksheet,
@@ -68,7 +53,17 @@ def get_date():
         i = i + 1
 
 
-def choose_activ():
+def input_text(input_message):
+    """
+    """
+    while True:
+        input_value = input(input_message)
+        if len(input_value) > 2:
+            break
+    return input_value
+
+
+def choose_activ(activities):
     """
     Display the time of chosen activities
     and request a confirmation from the user
@@ -77,16 +72,17 @@ def choose_activ():
     """
     print("Elmo: The activities are as follow:")
     get_date()
-    inp = input("Elmo: Which activity would you like to sign up for?\nYou: ")
+    
+    inp = input_text("Elmo: Which activity would you like to sign up for?\nYou: ")
     inp_str = inp.lower()
     if inp_str in EXIT_WORDS:
         say_bye()
     elif inp_str not in activities:
         print(f"Elmo: I do not have {inp} on my list!")
-        choose_activ()
+        # choose_activ()
     else:
         print(f"Elmo: I will add you to the list for the {inp_str} classes.")
-        confirmation = input("Elmo: Is that correct?\nYou: ")
+        confirmation = input_text("Elmo: Is that correct?\nYou: ")
         if confirmation in YES_ANSWERS:
             student = [name_str, inp_str]
             save_name(student, 'students')
@@ -102,7 +98,7 @@ def say_bye():
     If User request to end the program,
     exit the terminal, else: restart or process the answer
     """
-    bye = input("Elmo: Are you leaving now?\nYou: ")
+    bye = input_text("Elmo: Are you leaving now?\nYou: ")
     bye_str = bye.lower()
     if bye_str in YES_ANSWERS:
         print(f"Elmo: Bye bye {name_str}! Take care! <3")
@@ -121,10 +117,10 @@ def restart():
     or option to exit the terminal
     """
     print("Elmo: Is there anything else I can help you with?")
-    restart_ = str(input("You: "))
+    restart_ = str(input_text("You: "))
     restart_q = restart_.lower()
     if restart_q in YES_ANSWERS:
-        lead_q = str(input("Elmo: What would you like to know?\nYou: "))
+        lead_q = str(input_text("Elmo: What would you like to know?\nYou: "))
         process_answer(lead_q)
     elif restart_q in NO_ANSWERS:
         say_bye()
@@ -134,7 +130,7 @@ def restart():
         process_answer(restart_q)
 
 
-def start():
+def start(activities):
     """
     Defining conversation start protocol
     Render a first main question,
@@ -143,10 +139,10 @@ def start():
     """
     while restart not in NO_ANSWERS:
         print("Elmo: Would you like to sign up for the activities?")
-        inp1 = input("You: ")
+        inp1 = input_text("You: ")
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
-            choose_activ()
+            choose_activ(activities)
         elif inp1_str in NO_ANSWERS:
             restart()
         else:
@@ -167,17 +163,6 @@ def save_name(data, worksheet):
 
 
 # Functions connected with chatbot converation
-
-data_file = open('intents.json').read()
-intents = json.loads(data_file)
-
-for intent in intents['Intents']:
-    if intent['patterns'] not in patterns:
-        patterns.append((intent['patterns'], intent['tag']))
-    if intent['responses'] not in responses:
-        responses.append((intent['responses'], intent['tag']))
-
-
 def process_answer(message):
     """
     Tokenize and lemmatize the words
@@ -198,10 +183,10 @@ def process_answer(message):
                 if pattern[1] == response[1]:
                     res = random.choice(response[0])
                     print("Elmo:", res)
-                    inp_i = input("You: ")
+                    inp_i = input_text("You: ")
                     process_answer(inp_i)
                     if pattern[1] == "joke":
-                        inp_j = input("You: ")
+                        inp_j = input_text("You: ")
                         process_answer(inp_j)
                     elif pattern[1] in EXIT_WORDS:
                         say_bye()
@@ -236,9 +221,22 @@ def welcome():
     print("                          I HOPE YOU'LL HAVE FUN! :)\n")
     print(line_a)
 
+def main():
+    """
+    """
+    data_file = open('intents.json').read()
+    intents = json.loads(data_file)
 
-welcome()
-print("Elmo: Hi. I am Elmo, your virtual friend :)")
-name_str = input("Elmo: What is your name?\nYou: ")
-print(f"Elmo: Hello {name_str}! Nice to meet you!")
-start()
+    for intent in intents['Intents']:
+        if intent['patterns'] not in patterns:
+            patterns.append((intent['patterns'], intent['tag']))
+        if intent['responses'] not in responses:
+            responses.append((intent['responses'], intent['tag']))
+
+    welcome()
+    print("Elmo: Hi. I am Elmo, your virtual friend :)")
+    name_str = input_text("Elmo: What is your name?\nYou: ")
+    print(f"Elmo: Hello {name_str}! Nice to meet you!")
+    start(activities)
+
+main()
