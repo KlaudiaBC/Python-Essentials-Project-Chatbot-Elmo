@@ -109,6 +109,10 @@ def say_bye():
 
 
 def show_themes():
+    """
+    Display random hint for a User
+    acording to the conversation flow
+    """
     sentenses = [
         "Elmo: Please, be free to ask me about out school.",
         "Elmo: Do you feel happy or sad? I am here to listen.",
@@ -216,7 +220,7 @@ def welcome():
     Display greeting and instructions
     """
     line_a = "   =======================================================\
-=====================   \n"
+===============   \n"
     print("")
     print(line_a)
     print("                                   WELCOME!\n")
