@@ -7,7 +7,7 @@
 It is a customized ChatBot built in Python and deployed in the Code Institute mock terminal on Heroku.
 
 <p align="center">
-  <img src="" alt="">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/title.png?raw=true" alt="intro-page">
 </p>
 
 ## Table of contents
@@ -40,10 +40,10 @@ There are many different approaches of building chatbots. The choice depends mos
 
 During preparation of this project I have tried several ways to create a chatbot, including:
 1. Chatbot based on the build-in python libraries, designed for chatbots (like chatterbot)
-As you can see on the example below, this simple and short code can already provide User with a back-to-back conversation, but the bot is missing logic and some answers do not match the question, therefore it is a great way to start but it does require further implementations. See example:
+As you can see on the example below, this simple and short code can already provide User with a back-to-back conversation, but the bot is missing logic and some answers do not match the question, therefore it is a great way to start but it does require further implementations. See example of my project in Google Colab:
 
 <p align="center">
-  <img src="" alt="">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/simple_chatbot.png?raw=true" alt="chatterbot">
 </p>
 
 2. Chatbot trained to search for the words converted into a binary system and stored in bag of words. Matching process is based on the percentage of repeated matches. I believe this bot could be very powerful once the intents and all vocabulary is prepared in a logical and complex way.
@@ -54,7 +54,8 @@ As you can see on the example below, this simple and short code can already prov
 - <a href="https://chatfuel.com/" target="_blank">Chatfuel</a>
 - <a href="https://mobilemonkey.com/" target="_blank">MobileMonkey</a>
 
-Example of Dialogflow project:
+Example of my Dialogflow project:
+
 <p align="center">
   <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/dialogflow.png?raw=true" alt="dialogflow">
 </p>
@@ -64,6 +65,41 @@ Example of Dialogflow project:
 
 ## User stories
 
+<table>
+  <tr>
+    <th>User stories:</th>
+    <th>Acceptance criteria:</th>
+  </tr>
+  <tr>
+    <td>As a User I want to be led through the registration process so that I can sign up for activities of my choice.</td>
+    <td>Given that I am the User I will be provided with short back-to-back conversation which will process adding my name to the desired list.</td>
+  </tr>
+    <tr>
+    <td>As a User I want to be able to easily access information about the school so that I know the place, contact and cost.</td>
+    <td>Given that I am the User I will be provided with the desired information once I type in the input field word connected with what I am looking for.</td>
+  </tr>
+    <tr>
+    <td>As a User I want to know which activities are available.</td>
+    <td>Given that I am the User I will be provided with the desired information in the beginning of the registration process.</td>
+  </tr>
+    <tr>
+    <td>As a User I want to know what time activities take place.</td>
+    <td>Given that I am the User I will be provided with the desired information in the beginning of the registration process.</td>
+  </tr>
+    <tr>
+    <td>As a User I want to end the application once my purpose is met.</td>
+    <td>Given that I am the User I will be provided with the exit option once I reach the ending point of the conversation or type: bye or exit in the input field.</td>
+  </tr>
+    <tr>
+    <td>As a User I want to be entertained by a joke.</td>
+    <td>Given that I am the User I will be provided with a random joke everytime I type word: "joke" in the terminal (in any form eg. joking, tell me jokes etc.)</td>
+  </tr>
+  <tr>
+    <td>As a User I want my messages to be understood so that I can find what I am looking for.</td>
+    <td>Given that I am the User I will be provided with multiple options of information and lead into a main purpose of the application which is registration for activities.</td>
+  </tr>
+  </table>
+  
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="fe"></p>
 
@@ -78,6 +114,9 @@ Example of Dialogflow project:
 - Random jokes - as an element of a user-friendly environment adjusted to targeted groups of recipients.
 - Useful information - ChatBot provide the information about contact details, address, prices and available activities with the time schedule.
 
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/main_root_conv.png?raw=true" alt="conversation">
+</p>
 
 ### Future features
 Sign up process:
@@ -151,7 +190,7 @@ I installed the libraries needed for further development:
 - spacy - software library for advanced natural language processing
 
 I stored the particular parts of the data in variables in the way: pattern+tag and responses+tag. Then I created a function which will process the text from the input.
-1. Tokanization - the process of converting a sequence of characters into a sequence of tokens (strings with an assigned meaning). I have used build in function provided with nltk library in order to tokenize the answers. See the tokenization process on picture below.
+1. Tokanization - the process of converting a sequence of characters into a sequence of tokens (strings with an assigned meaning). I have used build in function provided with nltk library in order to tokenize the answers.
 2. Lemmatization - the process of reducing inflection in words to their root forms - lemmas. Another way to achieve the processing of the word into its root version is called stemming. The main difference between those two ways is that the stemming removes only the last characters of the word, where lemmatization takes into consideration context so can provide better correction of words. See the lemmatization and the stemming process on picture below.
 
 <p align="center">
@@ -159,7 +198,7 @@ I stored the particular parts of the data in variables in the way: pattern+tag a
  </p>
 
 <p align="center">
-  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/tokenize.png?raw=true" alt="tokenization">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/stemm_lemma.png?raw=true" alt="stemming">
 </p>
 
 Once the answer was brought to the root word, I created a loop with a nested loops, which checks if:
@@ -169,6 +208,10 @@ Once the answer was brought to the root word, I created a loop with a nested loo
 
 Finally once all mapping is done:
 - choose the random response from the responses array stored on the list containing matching tag
+  
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/patternsandresponses.png?raw=true" alt="patterns">
+</p>
 
 In other words, the function is looking for a pattern (a list of predicted words) which contains the processed word from the input and is assigned to this patterns tag. Then it looks for the same tag in the responses list and via this tag is able to display response matching to Users input.
 
@@ -278,6 +321,11 @@ The features, which were taken into a testing, are listed below.
   <tr>
     <td>Exit</td>
     <td>Once the User confirms the will to exit the terminal, the terminal is shut.</td>
+    <td>Pass</td>
+  </tr>
+    <tr>
+    <td>Input</td>
+    <td>Once the input is none and User presses "Enter", the terminal will return the question.</td>
     <td>Pass</td>
   </tr>
 </table>
