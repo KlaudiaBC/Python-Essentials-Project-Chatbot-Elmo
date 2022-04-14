@@ -4,13 +4,10 @@ import json
 import random
 import gspread
 from google.oauth2.service_account import Credentials
-import nltk
 import spacy
 from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import RegexpTokenizer
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
 lemmatizer = WordNetLemmatizer()
 nlp = spacy.load('en_core_web_sm')
 
@@ -30,12 +27,12 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["exit", "bye", "go"]
-STOP_WORDS = ["?", "!", "you", "the", "a", "an", "so", "what"]
+FUNNY_ANSWERS = ["hahaha", "funny", "lol", "lmao", "hehe", "hihi", "omg"]
 tags = []
 patterns = []
 responses = []
-activ = SHEET.worksheet("activities").get_all_values()
-activities = activ[0]
+activity = SHEET.worksheet("activities").get_all_values()
+activities = activity[0]
 
 
 # Functions connected with sign up process:
@@ -44,26 +41,29 @@ def get_date():
     Collects first row of data from activities worksheet,
     and returns the data as a list of strings.
     """
-    activ_ = activ[0]
-    date = activ[1]
+    activity_list = activity[0]
+    date = activity[1]
     i = 0
 
-    while i < len(activ_):
-        print("-", activ_[i], " - ", date[i])
+    while i < len(activity_list):
+        print("-", activity_list[i], " - ", date[i])
         i = i + 1
 
 
 def input_text(input_message):
     """
+    Asking user for input untill he
+    provide a valid response,
+    imput must be greater than 0
     """
     while True:
         input_value = input(input_message)
-        if len(input_value) > 2:
+        if len(input_value) > 0:
             break
     return input_value
 
 
-def choose_activ(activities):
+def choose_activ():
     """
     Display the time of chosen activities
     and request a confirmation from the user
@@ -72,14 +72,13 @@ def choose_activ(activities):
     """
     print("Elmo: The activities are as follow:")
     get_date()
-    
-    inp = input_text("Elmo: Which activity would you like to sign up for?\nYou: ")
+    print("Elmo: Which activity would you like to sign up for?")
+    inp = input_text("You: ")
     inp_str = inp.lower()
     if inp_str in EXIT_WORDS:
         say_bye()
     elif inp_str not in activities:
-        print(f"Elmo: I do not have {inp} on my list!")
-        # choose_activ()
+        print(f"Elmo: I do not have {inp} on my list :(")
     else:
         print(f"Elmo: I will add you to the list for the {inp_str} classes.")
         confirmation = input_text("Elmo: Is that correct?\nYou: ")
@@ -109,6 +108,18 @@ def say_bye():
         process_answer(bye_str)
 
 
+def show_themes():
+    sentenses = [
+        "Elmo: Please, be free to ask me about out school.",
+        "Elmo: Do you feel happy or sad? I am here to listen.",
+        "Elmo: Type: contact to find out a person who you can talk to.",
+        "Elmo: You can ask me about the prices or address of school.",
+        "Elmo: Type 'joke' and let me cheer you up! :)"
+    ]
+
+    print(random.choice(sentenses))
+
+
 def restart():
     """
     If user request to restart,
@@ -117,20 +128,22 @@ def restart():
     or option to exit the terminal
     """
     print("Elmo: Is there anything else I can help you with?")
-    restart_ = str(input_text("You: "))
-    restart_q = restart_.lower()
-    if restart_q in YES_ANSWERS:
-        lead_q = str(input_text("Elmo: What would you like to know?\nYou: "))
-        process_answer(lead_q)
-    elif restart_q in NO_ANSWERS:
+    show_themes()
+    restart_question = str(input_text("You: "))
+    restart_str = restart_question.lower()
+    if restart_str in YES_ANSWERS:
+        print("Elmo: What would you like to know?")
+        lead_question = str(input_text("You: "))
+        process_answer(lead_question)
+    elif restart_str in NO_ANSWERS:
         say_bye()
-    elif restart_q in EXIT_WORDS:
+    elif restart_str in EXIT_WORDS:
         say_bye()
     else:
-        process_answer(restart_q)
+        process_answer(restart_str)
 
 
-def start(activities):
+def start():
     """
     Defining conversation start protocol
     Render a first main question,
@@ -142,7 +155,7 @@ def start(activities):
         inp1 = input_text("You: ")
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
-            choose_activ(activities)
+            choose_activ()
         elif inp1_str in NO_ANSWERS:
             restart()
         else:
@@ -183,11 +196,11 @@ def process_answer(message):
                 if pattern[1] == response[1]:
                     res = random.choice(response[0])
                     print("Elmo:", res)
-                    inp_i = input_text("You: ")
-                    process_answer(inp_i)
+                    user_answer = input_text("You: ")
+                    process_answer(user_answer)
                     if pattern[1] == "joke":
-                        inp_j = input_text("You: ")
-                        process_answer(inp_j)
+                        if user_answer in FUNNY_ANSWERS:
+                            print("Elmo: Haha, that was funny, wasn't it? :)")
                     elif pattern[1] in EXIT_WORDS:
                         say_bye()
                     else:
@@ -215,14 +228,18 @@ def welcome():
     print("                   OR ASK FOR INFORMATION ABOUT OUR SCHOOL:")
     print("                        HE KNOWS THE ADDRESS, CONTACT")
     print("                      AND ALL ABOUT AVAILABLE ACTIVITIES.\n")
-    print("                      TOO LONG SENTENCES MAY CONFUSE ELMO")
+    print("                         PUNCTUATION MAY CONFUSE ELMO")
     print("                     AS HE IS ONLY NOW STARTING TO LEARN.")
     print("                   TO END THE CONVERSATION JUST TYPE: EXIT")
     print("                          I HOPE YOU'LL HAVE FUN! :)\n")
     print(line_a)
 
+
 def main():
     """
+    Starts the application:
+    Import all the data
+    Display welcome message
     """
     data_file = open('intents.json').read()
     intents = json.loads(data_file)
@@ -235,8 +252,9 @@ def main():
 
     welcome()
     print("Elmo: Hi. I am Elmo, your virtual friend :)")
-    name_str = input_text("Elmo: What is your name?\nYou: ")
-    print(f"Elmo: Hello {name_str}! Nice to meet you!")
-    start(activities)
+
 
 main()
+name_str = input_text("Elmo: What is your name?\nYou: ")
+print(f"Elmo: Hello {name_str}! Nice to meet you!")
+start()
