@@ -6,6 +6,8 @@
 ## This is my Portfolio 3 Project regarding the Code Institute's Diploma in Software Development (E-commerce Applications).
 It is a customized ChatBot built in Python and deployed in the Code Institute mock terminal on Heroku.
 
+See the live project <a href="https://chatbot-elmo.herokuapp.com/">here</a>.
+
 <p align="center">
   <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/title.png?raw=true" alt="intro-page">
 </p>
