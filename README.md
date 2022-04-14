@@ -71,11 +71,12 @@ Example of Dialogflow project:
 
 ### Excisting features
 - Customised customer interactions - ChatBot has multiple personalised responses for a User
-- Quick registration- allows for subscribing to a selected activity list via the short and friendly conversation.
-- Easy deployment and messaging support - application is deployed via Herokuapp and is easy to use, all information needed for the User are provided in the bottom part of the terminal.
-- Integrations with 3rd party applications- the chatbot is connected with Google Cloud (Google Drive and Google Sheets).
-- Security and privacy of customer data- the data provided via User is stored in the authorised files with limited access.
+- Quick registration - allows for subscribing to a selected activity list via the short and friendly conversation
+- Easy deployment and messaging support - application is deployed via Herokuapp and is easy to use, all information needed for the User are provided in the top part of the terminal.
+- Integrations with 3rd party applications - the chatbot is connected with Google Cloud (Google Drive and Google Sheets).
+- Security and privacy of customer data - the data provided via User is stored in the authorised files with limited access.
 - Random jokes - as an element of a user-friendly environment adjusted to targeted groups of recipients.
+- Useful information - ChatBot provide the information about contact details, address, prices and available activities with the time schedule.
 
 
 ### Future features
@@ -85,23 +86,24 @@ Sign up process:
 
 ChatBot features:
 - Allow human handover - connect with a human support once the expectations of the customer can not be met
-- Add UX/UI -  add design of the chat window as well as implementation of specific font, background or graphic signs (like emotions)
+- Add UX/UI - add design of the chat window as well as implementation of specific font, background or graphic signs (like emotions)
 - Add omnichannel messaging support - the feature which provides the integrations allowing ChatBot to be launched across the channels (User do not have to provide any information manually)
-- Expand the vocabulary - rule-based chatbots can be often annoying for a customers because they can't understand the actual intent of human queries. To improve User experience, the bot needs to have a great corpus and have to be equipped with the AI-training algorithms which allows it to become more intelligent and understand the User better.
+- Expand the vocabulary - rule-based chatbots can often be annoying for a customer because they can't understand the actual intent of human queries. To improve User experience, the bot needs to have a great corpus and have to be equipped with the AI-training algorithms which allows it to become more intelligent and understand the User better.
+- Remove punctuation and stop-words. As I have used this method in my previous version of chatbot, I haven't got time to implement it in my current project but it is indeed a very powerful feature.
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="data"></p>
 
 ## Data model
 
-1. Decision tree:
+### 1. Decision tree:
 I created a map of the possible outcomes of a series of related choices. My decision tree starts with a single node, which branches into two possible outcomes. Each of those outcomes leads to additional nodes, which connect with new possibilities. The end point is when the User makes a decision about exiting the terminal via typing one of exit words or confirm exit while asked an exit question. If the User will provide requested information, the outcome will be to pass the data into the desired spreadsheet. See the flowchart:
  
 <p align="center">
   <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/main_conv.png?raw=true" alt="data tree">
 </p>
 
-2. Nested lists:
+### 2. Nested lists:
 I have declared the variable "Intents" to store a list that contains ten objects. Each object contains a nested list of three elements: tag, pattern and responses. Each element in this data structure has its name/value pair, so for name "intents" - there are six values, for name "tag" there is one value and so on.
 
 See pic.
@@ -117,10 +119,10 @@ To access spreadsheet located in my google account I had to enable two API's:
 - Google Drive: credentials allows to securely access the google files
 - Google Sheets
 
-In order to connect my API I had to generate credentials which provide proof to Google Drive that my Python project has permission to access the account.
+In order to connect my API with a Python project I had to generate credentials which provide proof to Google Drive that my Python project has permission to access the account.
 Once the credentials were set, I received a unique email address and created a key of credentials in .json format.
 I added this file into my repository and called it: "creds.json". Then I copied the client email address stored in this file, and used it in the "Give access" section in my Google Sheets file.
-Then I added the creds.json into my gitignore file to make sure, this document will not be committed at any point into my repository as it does contain sensitive information which should be hidden.
+I added the creds.json into my git.ignore file to make sure, this document will not be committed at any point into my repository as it does contain sensitive information which should be hidden.
 
 Installing libraries:
 At first, I added the required libraries to my run.py file:
@@ -128,11 +130,8 @@ At first, I added the required libraries to my run.py file:
 - gspread - library of code needed to access and update data in the spreadsheet
 
 Once the API connections were set, I created an if/else statement for the main conversation (register the User for chosen activities).
-Next I moved into creating a function get_activities() which requests the data from the connected spreadsheet, processes it into a string and displays it for the user.
-With the data tree, my statement became very complicated therefore I decided to split some parts of the statement into independent functions and call each function when it is needed.
-
-Next function I build is responsible for requesting data from a spreadsheet, then assigning each value from row one with a value from row two and displaying the desired date in the terminal.
-Furthermore I built the function which pushes the data into a spreadsheet once the User confirms his desire to be signed on the list.
+Next I moved into creating a function get_date() which requests the data from the connected spreadsheet and displays it for a user in format: activity - date/time.
+My statement defining the main conversation flow became very complicated therefore I decided to split some parts of the statement into independent functions and call each function when it is needed. Furthermore I built the function which pushes the data into a spreadsheet once the User confirms his desire to be signed on the list.
 
 At this stage I had a customised ChatBot able to provide a full basic conversation with the User and request information needed to sign up for chosen activities as well as able to save the data in the compatible spreadsheet.
 
@@ -144,16 +143,16 @@ To avoid storing the large amounts of data in my main code, I created a json fil
 
 I installed the libraries needed for further development:
 - sys - library with access to some variables used or maintained by the interpreter or strongly with it connected (function used in the project: sys.exit)
-- nltk -  leading platform for building Python programs to work with human language data ( Natural Language Toolkit)
+- nltk - leading platform for building Python programs to work with human language data (Natural Language Toolkit)
 - WordNetLemmatizer - lexical database for the English language, used to establish structured semantic relationships between words
 - nltk.stem - Interfaces used to remove morphological affixes from words, leaving only the word stem
 - json - needed to read the json file
-- random -  Returns a random element from the given sequence
+- random - returns a random element from the given sequence
 - spacy - software library for advanced natural language processing
 
 I stored the particular parts of the data in variables in the way: pattern+tag and responses+tag. Then I created a function which will process the text from the input.
-1. Tokanization - the process of converting a sequence of characters into a sequence of tokens (strings with an assigned meaning). I have used build in function provided with nltk library in order to tokenize the answers.
-2. Lemmatization - the process of reducing inflection in words to their root forms - lemmas. Another way to achieve the processing of the word into its root version is called stemming. The main difference between those two ways is that the stemming removes only the last characters of the word, where lemmatization takes into consideration context so can provide better correction of words.
+1. Tokanization - the process of converting a sequence of characters into a sequence of tokens (strings with an assigned meaning). I have used build in function provided with nltk library in order to tokenize the answers. See the tokenization process on picture below.
+2. Lemmatization - the process of reducing inflection in words to their root forms - lemmas. Another way to achieve the processing of the word into its root version is called stemming. The main difference between those two ways is that the stemming removes only the last characters of the word, where lemmatization takes into consideration context so can provide better correction of words. See the lemmatization and the stemming process on picture below.
 
 <p align="center">
   <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/text_processing.png?raw=true" alt="word processing">
@@ -173,6 +172,8 @@ Finally once all mapping is done:
 
 In other words, the function is looking for a pattern (a list of predicted words) which contains the processed word from the input and is assigned to this patterns tag. Then it looks for the same tag in the responses list and via this tag is able to display response matching to Users input.
 
+I also added extra leading information, which Elmo will pass to the User - clues what to ask about or what User should type in the input to receive desired response.
+
 ### Integration of the root conversation with chatbot responses:
 Since I have built those two parts of functionality apart, it was time to connect them. 
 
@@ -180,7 +181,9 @@ The main goal: root conversation- allow users to register for activities. Once U
 If the User will choose "no" in the first question or in any other queries, he will be sent back into a second node question.
 If User types any other word in the input field- the bot will display the answer and lead back to the top of the root- the second node question.
 
-After the process of registration is done, User is sent to the second node and can sign up for more activities or continue conversation (ask for information, joke, tell about feelings). The main loop of the tree is executing the root continuously until the User will confirm the desire to end the process.
+Once the process of registration is done, User is sent to the second node and can sign up for more activities or continue conversation (ask for information, joke, tell about feelings). The main loop of the tree is executing the root continuously until the User will confirm the desire to end the process.
+
+After deployment, I realised that my input form has no validation therefore, once User presses enter with no input, it breaks the code and shows error. To fix this, I defined a new function responsible for checking if the input is greater than 0 characters.
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="tu"></p>
