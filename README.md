@@ -42,7 +42,7 @@ There are many different approaches of building chatbots. The choice depends mos
 
 During preparation of this project I have tried several ways to create a chatbot, including:
 1. Chatbot based on the build-in python libraries, designed for chatbots (like chatterbot)
-As you can see on the example below, this simple and short code can already provide User with a back-to-back conversation, but the bot is missing logic and some answers do not match the question, therefore it is a great way to start but it does require further implementations. See example of my project in Google Colab:
+As you can see on the example below, this simple and short code can already provide User with a back-to-back conversation, but the bot is missing logic and some answers do not match the question, therefore it is a great way to start but it does require further implementations. See example of the project in Google Colab:
 
 <p align="center">
   <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/simple_chatbot.png?raw=true" alt="chatterbot">
@@ -147,8 +147,6 @@ I created a map of the possible outcomes of a series of related choices. My deci
 ### 2. Nested lists:
 I have declared the variable "Intents" to store a list that contains ten objects. Each object contains a nested list of three elements: tag, pattern and responses. Each element in this data structure has its name/value pair, so for name "intents" - there are six values, for name "tag" there is one value and so on.
 
-See pic.
-
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="ip"></p>
 
@@ -229,6 +227,10 @@ If User types any other word in the input field- the bot will display the answer
 Once the process of registration is done, User is sent to the second node and can sign up for more activities or continue conversation (ask for information, joke, tell about feelings). The main loop of the tree is executing the root continuously until the User will confirm the desire to end the process.
 
 After deployment, I realised that my input form has no validation therefore, once User presses enter with no input, it breaks the code and shows error. To fix this, I defined a new function responsible for checking if the input is greater than 0 characters.
+
+<p align="center">
+  <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/second_conv.png?raw=true" alt="conversation">
+</p>
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="tu"></p>
