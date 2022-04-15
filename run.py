@@ -27,7 +27,7 @@ SHEET = GSPREAD_CLIENT.open('elmo_act')
 YES_ANSWERS = ["yes", "y", "ok", "ye", "sure", "yeah"]
 NO_ANSWERS = ["no", "n", "nah"]
 EXIT_WORDS = ["exit", "bye", "go"]
-FUNNY_ANSWERS = ["hahaha", "funny", "lol", "lmao", "hehe", "hihi", "omg"]
+FUNNY_ANSWERS = ["hahaha", "funny", "lol", "lmao", "hehe", "hihi", "silly"]
 tags = []
 patterns = []
 responses = []
@@ -114,10 +114,10 @@ def show_themes():
     acording to the conversation flow
     """
     sentenses = [
-        "Elmo: Please, be free to ask me about out school.",
+        "Elmo: Please, be free to ask me anything about the school.",
         "Elmo: Do you feel happy or sad? I am here to listen.",
-        "Elmo: Type: contact to find out a person who you can talk to.",
-        "Elmo: You can ask me about the prices or address of school.",
+        "Elmo: Type: contact to find a person, who you can talk to.",
+        "Elmo: You can ask me about the prices or about the address.",
         "Elmo: Type 'joke' and let me cheer you up! :)"
     ]
 

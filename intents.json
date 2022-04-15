@@ -20,7 +20,7 @@
     {"tag": "contact",
         "patterns": ["contact", "number", "phone", "email", "person"],
         "responses": [
-        "You can contact my friend Big Bird, who will be able to help you. Just call 123-456-789."]
+        "You can contact my friend Big Bird. He will help you. Just call 123-456-789."]
     },
     {"tag": "price",
         "patterns": ["price", "cost", "money"],
