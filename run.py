@@ -237,7 +237,7 @@ def main():
     Import all the data
     Display welcome message
     """
-    data_file = open('intents.json').read()
+    data_file = open('intents.json', encoding='UTF-8').read()
     intents = json.loads(data_file)
 
     for intent in intents['Intents']:
