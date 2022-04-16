@@ -1,4 +1,4 @@
-""" Add required libraries"""
+"""Add required libraries"""
 import sys
 import json
 import random
@@ -32,22 +32,16 @@ tags = []
 patterns = []
 responses = []
 activity = SHEET.worksheet("activities").get_all_values()
-activities = activity[0]
 
 
 # Functions connected with sign up process:
-def get_date():
+def get_date(activities, dates):
     """
     Collects first row of data from activities worksheet,
     and returns the data as a list of strings.
     """
-    activity_list = activity[0]
-    date = activity[1]
-    i = 0
-
-    while i < len(activity_list):
-        print("-", activity_list[i], " - ", date[i])
-        i = i + 1
+    for index, value in enumerate(activities):
+        print(f"- {value} - {dates[index]}")
 
 
 def input_text(input_message):
@@ -63,7 +57,7 @@ def input_text(input_message):
     return input_value
 
 
-def choose_activ():
+def choose_activity(player_name, activities, dates):
     """
     Display the time of chosen activities
     and request a confirmation from the user
@@ -71,27 +65,27 @@ def choose_activ():
     push this data into a spreadsheet
     """
     print("Elmo: The activities are as follow:")
-    get_date()
+    get_date(activities, dates)
     print("Elmo: Which activity would you like to sign up for?")
     inp = input_text("You: ")
     inp_str = inp.lower()
     if inp_str in EXIT_WORDS:
-        say_bye()
+        say_bye(player_name)
     elif inp_str not in activities:
         print(f"Elmo: I do not have {inp} on my list :(")
     else:
         print(f"Elmo: I will add you to the list for the {inp_str} classes.")
         confirmation = input_text("Elmo: Is that correct?\nYou: ")
         if confirmation in YES_ANSWERS:
-            student = [name_str, inp_str]
+            student = [player_name, inp_str]
             save_name(student, 'students')
         elif confirmation in NO_ANSWERS:
-            restart()
+            restart(player_name)
         else:
-            process_answer(inp_str)
+            process_answer(player_name, inp_str)
 
 
-def say_bye():
+def say_bye(player_name):
     """
     Defining conversation end protocol
     If User request to end the program,
@@ -100,12 +94,12 @@ def say_bye():
     bye = input_text("Elmo: Are you leaving now?\nYou: ")
     bye_str = bye.lower()
     if bye_str in YES_ANSWERS:
-        print(f"Elmo: Bye bye {name_str}! Take care! <3")
+        print(f"Elmo: Bye bye {player_name}! Take care! <3")
         sys.exit()
     elif bye_str in NO_ANSWERS:
-        restart()
+        restart(player_name)
     else:
-        process_answer(bye_str)
+        process_answer(player_name, bye_str)
 
 
 def show_themes():
@@ -124,7 +118,7 @@ def show_themes():
     print(random.choice(sentenses))
 
 
-def restart():
+def restart(player_name):
     """
     If user request to restart,
     render a question with help offer
@@ -138,16 +132,14 @@ def restart():
     if restart_str in YES_ANSWERS:
         print("Elmo: What would you like to know?")
         lead_question = str(input_text("You: "))
-        process_answer(lead_question)
-    elif restart_str in NO_ANSWERS:
-        say_bye()
-    elif restart_str in EXIT_WORDS:
-        say_bye()
+        process_answer(player_name, lead_question)
+    elif restart_str in [*NO_ANSWERS, *EXIT_WORDS]:
+        say_bye(player_name)
     else:
-        process_answer(restart_str)
+        process_answer(player_name, restart_str)
 
 
-def start():
+def start(player_name, activities, dates):
     """
     Defining conversation start protocol
     Render a first main question,
@@ -159,14 +151,14 @@ def start():
         inp1 = input_text("You: ")
         inp1_str = inp1.lower()
         if inp1_str in YES_ANSWERS:
-            choose_activ()
+            choose_activity(player_name, activities, dates)
         elif inp1_str in NO_ANSWERS:
-            restart()
+            restart(player_name)
         else:
             if inp1_str in EXIT_WORDS:
-                say_bye()
+                say_bye(player_name)
             else:
-                process_answer(inp1_str)
+                process_answer(player_name, inp1_str)
 
 
 def save_name(data, worksheet):
@@ -176,11 +168,11 @@ def save_name(data, worksheet):
     students = SHEET.worksheet(worksheet)
     students.append_row(data)
     print("Elmo: Excellent! You are now on the list!")
-    restart()
+    restart(player_name=data[0])
 
 
 # Functions connected with chatbot converation
-def process_answer(message):
+def process_answer(player_name, message):
     """
     Tokenize and lemmatize the words
     from the input, then search for it
@@ -201,14 +193,14 @@ def process_answer(message):
                     res = random.choice(response[0])
                     print("Elmo:", res)
                     user_answer = input_text("You: ")
-                    process_answer(user_answer)
+                    process_answer(player_name, user_answer)
                     if pattern[1] == "joke":
                         if user_answer in FUNNY_ANSWERS:
                             print("Elmo: Haha, that was funny, wasn't it? :)")
                     elif pattern[1] in EXIT_WORDS:
-                        say_bye()
+                        say_bye(player_name)
                     else:
-                        restart()
+                        restart(player_name)
 
 
 # Adding integration and calling the main function
@@ -256,9 +248,9 @@ def main():
 
     welcome()
     print("Elmo: Hi. I am Elmo, your virtual friend :)")
+    name_str = input_text("Elmo: What is your name?\nYou: ")
+    print(f"Elmo: Hello {name_str}! Nice to meet you!")
+    start(name_str, activities=activity[0], dates=activity[1])
 
 
 main()
-name_str = input_text("Elmo: What is your name?\nYou: ")
-print(f"Elmo: Hello {name_str}! Nice to meet you!")
-start()
