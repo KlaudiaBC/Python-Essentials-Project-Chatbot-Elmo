@@ -6,8 +6,6 @@ import gspread
 from google.oauth2.service_account import Credentials
 import spacy
 from nltk.stem import WordNetLemmatizer
-# nltk.download('wordnet')
-# nltk.download('omw-1.4')
 lemmatizer = WordNetLemmatizer()
 nlp = spacy.load('en_core_web_sm')
 
