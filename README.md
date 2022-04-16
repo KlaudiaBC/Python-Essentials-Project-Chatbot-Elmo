@@ -131,6 +131,7 @@ ChatBot features:
 - Add omnichannel messaging support - the feature which provides the integrations allowing ChatBot to be launched across the channels (User do not have to provide any information manually)
 - Expand the vocabulary - rule-based chatbots can often be annoying for a customer because they can't understand the actual intent of human queries. To improve User experience, the bot needs to have a great corpus and have to be equipped with the AI-training algorithms which allows it to become more intelligent and understand the User better.
 - Remove punctuation and stop-words. As I have used this method in my previous version of chatbot, I haven't got time to implement it in my current project but it is indeed a very powerful feature.
+- Improve the code clearance by passing into the parameters data needed for validation and shortening the amount of repeated variables. 
 
 <p align="right"><a href="#welcome">Bact to top</a></p>
 <p id="data"></p>
@@ -215,7 +216,7 @@ Finally once all mapping is done:
 
 In other words, the function is looking for a pattern (a list of predicted words) which contains the processed word from the input and is assigned to this patterns tag. Then it looks for the same tag in the responses list and via this tag is able to display response matching to Users input.
 
-I also added extra leading information, which Elmo will pass to the User - clues what to ask about or what User should type in the input to receive desired response.
+I also added extra leading information, which Elmo will pass to the User - clues what to ask about or what User should type in the input to receive desired response. 
 
 ### Integration of the root conversation with chatbot responses:
 Since I have built those two parts of functionality apart, it was time to connect them. 
@@ -226,7 +227,7 @@ If User types any other word in the input field- the bot will display the answer
 
 Once the process of registration is done, User is sent to the second node and can sign up for more activities or continue conversation (ask for information, joke, tell about feelings). The main loop of the tree is executing the root continuously until the User will confirm the desire to end the process.
 
-After deployment, I realised that my input form has no validation therefore, once User presses enter with no input, it breaks the code and shows error. To fix this, I defined a new function responsible for checking if the input is greater than 0 characters.
+After deployment, I realised that my input form has no validation therefore, once User presses enter with no input, it breaks the code and shows error. To fix this, I defined a new function responsible for checking if the input is greater than 0 characters. I also removed the global dependencies from the functions and passed the necessary parameters into them.
 
 <p align="center">
   <img src="https://github.com/KlaudiaBC/Python-Essentials-Project-Chatbot-Elmo/blob/main/img/second_conv.png?raw=true" alt="conversation">
